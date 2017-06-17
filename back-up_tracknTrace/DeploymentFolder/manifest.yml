@@ -1,0 +1,5 @@
+---
+applications:
+ - name: tracking-dashboard
+   random-route: true
+   memory: 512M

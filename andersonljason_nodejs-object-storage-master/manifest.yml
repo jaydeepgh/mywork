@@ -1,0 +1,10 @@
+applications:
+- disk_quota: 1024M
+  host: nodejs-object-storage
+  name: nodejs-object-storage
+  path: .
+  domain: mybluemix.net
+  instances: 1
+  memory: 128M
+  services:
+  - object-store

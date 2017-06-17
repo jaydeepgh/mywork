@@ -1,0 +1,249 @@
+{
+    "header": {
+        "fields": [
+            {
+                "id": "headerImage",
+                "type": "img",
+                "className": "header-img",
+                "value": "../img/pmi-logo.png",
+                "attributed": "false"
+            },
+            {
+                "id": "headingCon",
+                "type": "div",
+                "className": "headerCon",
+                "value": "",
+                "attributed": "true",
+                "fields": [{
+                    "id": "headingText1",
+                    "type": "label",
+                    "className": "header-text1",
+                    "value": "Contract template text1",
+                    "attributed": "true"                    
+                    },
+                   {
+                    "id": "",
+                    "type": "br",
+                    "className": "",
+                    "value": "",
+                    "attributed": ""                                                              
+                   },
+                    {
+                    "id": "headingText2",
+                    "type": "label",
+                    "className": "header-text2",
+                    "value": "Contract template text2",
+                    "attributed": "true"}]
+            }
+        ],
+        "className": "headerStyle"
+    },
+    "pages": [
+        {
+            "fields": [
+                {
+                    "id": "page1Container1",
+                    "type": "div",
+                    "className": "page-text",
+                    "value": "",
+                    "attributed": "false",
+                    "fields" : [{
+                        "id": "l-text1",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": "This is a ",
+                        "attributed": "false"          
+                    },
+                    {                        
+                        "id": "selContractType",
+                        "type": "select",
+                        "className": "selectBox",
+                        "attributed": "false",
+                        "options": [{"type":"option","value":"POSM", "index":"1"},{"type":"option","value":"Sales","index":"2"},{"type":"option","value":"Offtake","index":"3"}]
+                    },
+                    {
+                        "id": "l-text2",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": " type contract between PMI and ",
+                        "attributed": "false" 
+                    },
+                    {
+                        "id": "posName1",
+                        "type": "input",
+                        "inputtype":"text",
+                        "name": "POSName",
+                        "className": "input-text",
+                        "value": "",
+                        "attributed": "false"                        
+                    },
+                    {
+                        "id": "p1",
+                        "type": "p",
+                        "className": "",
+                        "value": "",
+                        "attributed": ""                                                              
+                    },
+                    {
+                        "id": "l-text3",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": "Detail of the contract is mentioned below. ",
+                        "attributed": "false" 
+                    },
+                    {
+                        "id": "p2",
+                        "type": "p",
+                        "className": "",
+                        "value": "",
+                        "attributed": ""                                                              
+                    },            
+                    {
+                        "id": "l-text4",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": "Compliance check will be done by the PMI field-force personnel every week. POS owner is eligible for the reward if its ",
+                        "attributed": "false" 
+                    },
+                    
+                    {
+                        "id": "compliancePercentage",
+                        "type": "input",
+                        "inputtype":"number",
+                        "name" : "compliancePercentage",
+                        "className": "input-text",
+                        "value": "75",
+                        "attributed": "false"                        
+                    },            
+                    {
+                        "id": "l-text5",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": " percent compliance in a compliance period. Following will be checked during compliance period,",
+                        "attributed": "false" 
+                    },
+                    {
+                        "id": "",
+                        "type": "br",
+                        "className": "",
+                        "value": "",
+                        "attributed": ""                                                              
+                    },
+                    {
+                        "id": "chkhygiene",
+                        "type": "input",
+                        "inputtype":"checkbox",
+                        "name" : "Hygiene",
+                        "className": "input-text",
+                        "value": "Hygiene",
+                        "selected" : "true",
+                        "attributed": "false"
+                    },
+                    {
+                        "id": "l-text6",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": "Hygiene",
+                        "attributed": "false" 
+                    },                                
+                    {
+                        "id": "",
+                        "type": "br",
+                        "className": "",
+                        "value": "",
+                        "attributed": ""                                                              
+                    },
+                    {
+                        "id": "chklocation",
+                        "type": "input",
+                        "inputtype":"checkbox",
+                        "name" : "Location",
+                        "className": "input-text",
+                        "value": "Location",
+                        "selected" : "false",
+                        "attributed": "false"
+                    },
+                    {
+                        "id": "l-text7",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": "Location",
+                        "attributed": "false" 
+                    },                                                   
+                    {
+                        "id": "",
+                        "type": "br",
+                        "className": "",
+                        "value": "",
+                        "attributed": ""                                                              
+                    },
+                    {
+                        "id": "chkavailin",
+                        "type": "input",
+                        "inputtype":"checkbox",
+                        "name" : "AvailIn",
+                        "className": "input-text",
+                        "value": "AvailIn",
+                        "selected" : "false",
+                        "attributed": "false"
+                    },
+                    {
+                        "id": "l-text8",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": "Availability-In of focus brand",
+                        "attributed": "false" 
+                    },
+
+       
+                                
+                                
+                    {
+                        "id": "p3",
+                        "type": "p",
+                        "className": "",
+                        "value": "",
+                        "attributed": ""                                                              
+                    },
+                    {
+                        "id": "l-text9",
+                        "type": "label",
+                        "className": "page-text",
+                        "value": "Comments",
+                        "attributed": "false" 
+                    },
+                    {
+                        "id": "",
+                        "type": "br",
+                        "className": "",
+                        "value": "",
+                        "attributed": ""                                                              
+                    },                                
+                    {
+                        "id": "taComment",
+                        "type": "textarea",
+                        "className": "input-textarea",
+                        "value": "",
+                        "cols":"90",
+                        "rows":"20",
+                        "attributed": ""                                                              
+                    }]
+                }
+            ],
+            "className": "contentStyle"
+        }
+    ],
+    "footer": {
+        "fields": [
+            {
+                "id": "footerContainer",
+                "type": "div",
+                "className": "footer-container",
+                "value": "Footer Section!!",
+                "attributed": "false",
+                "fields":[]
+            }
+        ],
+        "className": "footerStyle"
+    }
+}

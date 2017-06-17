@@ -1,0 +1,5 @@
+---
+applications:
+ - name: TrackTraceDB
+   random-route: true
+   memory: 512M

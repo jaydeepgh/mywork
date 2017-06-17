@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Load CSV data</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="style.css" rel="stylesheet">-->
+</head>
+<body>
+<div>
+<div>
+   
+    <!--<button id="uploaddata" class="btn btn-primary" onclick="postData();">Upload data</button>-->
+        <!-- <div id="post-status"></div>-->
+    <!--<input type="file" onclick="clearValue(this);" onchange="alert(this.value);" on/>    -->
+
+    <div id="upload-panel">
+      <form id="upload-form" enctype="multipart/form-data" action="/upload" method="post">
+        Upload a file:
+        <input type="file" name="file-to-upload" />
+        <input type="submit" value="Upload File" name="submit">
+      </form>
+    </div>
+
+
+</div>
+<hr />
+
+    <div>Data <br />
+        <table id="data"></table>
+    </div>
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   
+</body>

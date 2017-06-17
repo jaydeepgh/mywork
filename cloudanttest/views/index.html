@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Track and  trace - db</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Track and Trace DB Usage</h1>
+        <div id="nameInput" class="input-group-lg center-block helloInput">
+            <p class="lead">Get assembly by date</p>
+            <input id="fromDate" type="text" class="form-control" placeholder="FromDate" aria-describedby="sizing-addon1" value="" />
+            <input id="toDate" type="text" class="form-control" placeholder="FromDate" aria-describedby="sizing-addon1" value="" />
+            <button class="btn btmn-primary" onclick="getAssembly();" > Go </button>
+            
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+
+
+        var getAssembly = () => {
+            //alert('reached');
+            var fromDt = document.getElementById('fromDate').value;
+            var toDt = document.getElementById('toDate').value;
+            //console.log(fromDt);
+            $.get(`./api/getassembly?fromdt=${fromDt}&todt=${toDt}`)
+                .done(function(data){
+                    console.log(data);
+                });
+        }
+
+    	//Submit data when enter key is pressed
+        /*
+        $('#user_name').keydown(function(e) {
+        	var name = $('#user_name').val();
+            if (e.which == 13 && name.length > 0) { //catch Enter key
+            	//POST request to API to create a new visitor entry in the database
+                $.ajax({
+				  method: "POST",
+				  url: "./api/visitors",
+				  contentType: "application/json",
+				  data: JSON.stringify({name: name })
+				})
+                .done(function(data) {
+                    $('#response').html(data);
+                    $('#nameInput').hide();
+                    getNames();
+                });
+            }
+        });
+
+        //Retreive all the visitors from the database
+        function getNames(){
+           //console.log('call getName');    
+          $.get("./api/visitors")
+              .done(function(data) {
+                    //console.log('here');                  
+                  if(data.length > 0) {
+                    $('#databaseNames').html("Database contents: " + JSON.stringify(data));
+                    //console.log(data);
+                  }
+              });
+          }
+
+          //Call getNames on page load.
+          getNames();
+        */
+
+    </script>
+</body>
+
+</html>

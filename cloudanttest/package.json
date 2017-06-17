@@ -1,0 +1,20 @@
+{
+  "name": "tracktracedb",
+  "version": "1.0.0",
+  "description": "Track and trace application db (use ibm cloudant)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "cfenv": "^1.0.x",
+    "cloudant": "^1.7.1",
+    "cors": "^2.8.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1",
+    "lodash": "^4.17.4"
+  },
+  "author": "Jaydeep Ghosh",
+  "license": "ISC"
+}

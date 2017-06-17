@@ -1,0 +1,28 @@
+#top-button-panel{
+    padding:5px;
+    padding-bottom: 10px;
+}
+.chartPan{
+    border: 0px solid #cccccc;
+  float: left;
+  width: 65%;
+  height: 300px;
+  overflow: hidden;
+  vertical-align: middle;
+  background-color : white;
+}
+.searchPan{
+        border: 1px solid #cccccc;
+        float:left;
+        height: 300px;
+         width: 35%;
+  vertical-align: middle; 
+  padding:15px;
+  padding-top:25px;        
+  overflow: hidden;
+  
+}
+.edit_image{
+  width: 20px;
+  height: 20px;
+}

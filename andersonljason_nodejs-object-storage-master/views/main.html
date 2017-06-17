@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <style>
+      div {
+        margin-bottom: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>The Object Store Uploader / Downloader</h1>
+    <!--div id="user-panel">
+      Enter your object store user: <input type="text"> <button>Set User</button>
+    </div>
+    <div id="container-panel">
+      Enter your container name: <input type="text"> <button>Set Container</button>
+    </div-->
+    <div id="upload-panel">
+      <form id="upload-form" enctype="multipart/form-data" action="/upload" method="post">
+        Upload a file:
+        <input type="file" name="file-to-upload" />
+        <input type="submit" value="Upload File" name="submit">
+      </form>
+    </div>
+    <div id="download-panel">
+      Files in object store container:
+
+      <% if(containerFiles.length > 0) { %>
+        <ul>
+          <% for(var i=0; i < containerFiles.length; i++) { %>
+            <li><a href="/download/<%= containerFiles[i] %>"><%= containerFiles[i] %></a> [<a href="/delete/<%= containerFiles[i] %>">Delete</a>]</li>
+          <% } %>
+        </ul>
+      <% } else { %>
+        You have no files in your container yet
+      <% } %>
+
+    </div>
+  </body>
+</html>

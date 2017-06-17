@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tracking System</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Create Assembly</h1>
+        <div id="upload-panel">
+        <form id="createAssemblyForm" action="/" method="post">
+            <div class="input-group">
+                <span>Assembly Line Id</span>
+                <input id= "AssemblyLineId" type="text" />
+            </div>
+            <div class="input-group">
+                <span>Serial Id</span>
+                <input id= "SerialId" type="text" />
+            </div>
+            <div class="input-group">
+                <span>Filament Batch Id</span>
+                <input id= "FilamentBatchId" type="text" />
+            </div>
+            <div class="input-group">
+                <span>Led Batch Id</span>
+                <input id= "LedBatchId" type="text" />
+            </div>             
+            <div class="input-group">
+                <span>Circuit Board Batch Id</span>
+                <input id= "CircuitBoardBatchId" type="text" />
+            </div>
+            <div class="input-group">
+                <span>Wire Batch Id</span>
+                <input id= "WireBatchId" type="text" />
+            </div>
+            <div class="input-group">
+                <span>Casing Batch Id</span>
+                <input id= "CasingBatchId" type="text" />
+            </div>
+            <div class="input-group">
+                <span>Adaptor Batch Id</span>
+                <input id= "AdaptorBatchId" type="text" />
+            </div>         
+            <div class="input-group">
+                <span>Stick-Pod Batch Id</span>
+                <input id= "StickPodBatchId" type="text" />
+            </div>       
+            <div class="input-group">
+                <span><button type="submit" id="createAssembly" class="btn btn-primary">Create</button></span>                
+            </div>                  
+        </form>
+        </div>
+    </div>
+  
+  
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+
+
+var postAssemblydata = {
+  jsonrpc: '2.0',
+  method: 'invoke',
+  params: {
+    type: 1,
+    chaincodeID: {
+      name: 'd3d4acdbda4e7714095be01feaa0b17a1b6b0e84e01795fff4cc8b4a3efc6b8248251ce4f1664c79cd5aca5c0cf4e04a2a484c58a6c11b0b0722c4dd04989249'
+    },
+    ctorMsg: {
+      function: 'startAssemblyLine',
+      args: []
+    },
+    secureContext: 'user_type1_0'
+  },
+  id: 0
+}  
+
+var postAssembly = () =>{
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('AssemblyLineId').value);
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('SerialId').value);
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('FilamentBatchId').value);
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('LedBatchId').value);
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('CircuitBoardBatchId').value);
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('WireBatchId').value);
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('CasingBatchId').value);
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('AdaptorBatchId').value);
+    postAssemblydata.params.ctorMsg.args.push(document.getElementById('StickPodBatchId').value);
+    //createAssembly();
+    return postAssemblydata;
+}
+
+            	//POST request to API to create a new visitor entry in the database
+/*                
+var createAssembly = $.ajax({
+				  method: "POST",
+				  url: "https://6ab2bee7541a48899971d1851b828ecb-vp0.us.blockchain.ibm.com:5004/chaincode",
+				  contentType: "application/json",
+				  data: JSON.stringify(postAssemblydata)
+				})
+                .done(function(data) {
+                    console.log(data);
+                    postAssemblydata.params.ctorMsg.args = [];
+                    alert(data);
+                });
+*/
+
+$("#createAssemblyForm").submit(function(e) {
+    var url = "https://6ab2bee7541a48899971d1851b828ecb-vp0.us.blockchain.ibm.com:5004/chaincode"; // the script where you handle the form input.
+    //console.log(JSON.stringify(postAssembly()));
+    $.ajax({
+           method: "POST",
+           url: url,
+           contentType: "application/json",
+           data: JSON.stringify(postAssembly()) // serializes the form's elements.
+    })
+    .done(function(data){
+               postAssemblydata.params.ctorMsg.args = [];
+               console.log(data);
+               alert(data); // show response from the php script.
+    });
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+});
+
+
+
+
+    	//Submit data when enter key is pressed
+        /*
+
+        //Retreive all the visitors from the database
+        function getNames(){
+           //console.log('call getName');    
+          $.get("./api/visitors")
+              .done(function(data) {
+                    //console.log('here');                  
+                  if(data.length > 0) {
+                    $('#databaseNames').html("Database contents: " + JSON.stringify(data));
+                    //console.log(data);
+                  }
+              });
+          }
+
+          //Call getNames on page load.
+          getNames();
+*/
+
+    </script>
+</body>
+
+</html>
