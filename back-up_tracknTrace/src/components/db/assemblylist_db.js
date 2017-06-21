@@ -16,13 +16,15 @@ import AssemblyTimeline from './assembly_timeline';
 import AssemblyHistory from '../assembly_history';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+
+
 import Dialog from 'material-ui/Dialog';
 import LinearProgress from 'material-ui/LinearProgress';
 
 
 import {GridList, GridTile} from 'material-ui/GridList';
 import {formatedDate, formatedDateTimeFromNum} from '../../dateutil';
-import {uploadAssemblyFile, getAllAssemblyLines} from '../../actions/index';
+import {uploadAssemblyFile, getAllAssemblyLines, BACKEND_APP_URL} from '../../actions/index';
 
 import axios, { post } from 'axios';
 
@@ -82,13 +84,16 @@ class AssemblyLineListDB extends Component
 
   }
   fileUpload(file){
-    const url = 'http://localhost:5000/api/upload';
+    const url = `${BACKEND_APP_URL}/api/upload`;
     const formData = new FormData();
     formData.append('file',file)
     const config = {
         headers: {
             'content-type': 'multipart/form-data',
-            'uid' : this.props.userstate.id, 'role':this.props.userstate.role, 'node_url':this.props.userstate.chainnode_url
+            'uid' : this.props.userstate.id, 
+            'role':this.props.userstate.role, 
+            'node_url':this.props.userstate.chainnode_url,
+            'secureContext' : this.props.userstate.secureContext
         }
     }
     return  post(url,formData,config);
@@ -127,9 +132,7 @@ class AssemblyLineListDB extends Component
 
         <MuiThemeProvider>
             <div>                
-                <Panel>
-
-
+            <Panel>
                 <Panel header="Upload Assembly file">
                     <div id="upload-panel">
                     <form onSubmit={this.onFormSubmit}>
@@ -162,7 +165,12 @@ class AssemblyLineListDB extends Component
                         </form>
                         </div>
                     </Panel>
-                                
+            </Panel>
+
+
+
+
+                <Panel>       
                     <Panel header="Existing Assembly Items">
                         {assemblydata}
                     </Panel>

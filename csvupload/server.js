@@ -57,14 +57,14 @@ app.post('/api/upload', function(req, res){
 
     var role = req.headers.role;
     if(role === 'Assembly'){
-        callAssemblyLine(upload_file_name, req.headers.uid, req.headers.node_url, req, res);        
+        callAssemblyLine(upload_file_name, req.headers.uid, req.headers.node_url, req.headers.secureContext, req, res);        
     }
 });
 
 
 
 
-const callAssemblyLine = (filename, uid, node_url, req, res) =>{
+const callAssemblyLine = (filename, uid, node_url, secureContext, req, res) =>{
     let rdata = []; 
     let myFile = fs.createReadStream(`./uploads/${filename}`);
     myFile.pipe(csv())
@@ -80,7 +80,7 @@ const callAssemblyLine = (filename, uid, node_url, req, res) =>{
         if(rdata.length>0){
             _(rdata).each((item) => {                
                 setTimeout(() => {
-                    blockchain.AssemblyLineInvoke(item,uid,node_url, (chain_res) =>{
+                    blockchain.AssemblyLineInvoke(item,uid,node_url, secureContext, (chain_res) =>{
                         //console.log(chain_res);
                         if(typeof chain_res != 'undefined'){
                             chain_err.push({ 

@@ -42,17 +42,18 @@ class UserLogin extends Component{
         var role = '';
         var id = '';
         var chainnode = null;
+        var secureContext = '';
         _.each(UserInfo,(user)=>{
            if(user.id == values.username && user.passcode == values.password){
                validuser = true;
                role = user.role;
                id = user.id;
-               //console.log(user.chainnode);
                chainnode = user.chainnode;
+               secureContext = user.secureContext;
            } 
         })
         if(validuser){
-            this.props.setUserState(id,role,chainnode);
+            this.props.setUserState(id,role,chainnode,secureContext);
                 this.context.router.push(`/${role}`);
             
 

@@ -6,7 +6,7 @@ const client = new Client();
 
 
 //Constants
-const CHAIN_CODE_ID = '30771480f653138fab130d5cb1482e652cc2a7e9181a5343a1bf412ba4149f3600a5a056999a95439f14d335a11bd03fab92624989bb01a6195c68d2005f4e1b';
+const CHAIN_CODE_ID = '02e6f26e006adf3e362fc74fd23c35f2b0aad6110d9b829b4a4c30091bde4d5af2cda1b8db34ee2db206443514c47e04a763fb0d0f66953bf651d3efc4b06963';
 const asm_cols = blockchain_util.AssemblyCols;
 
 //Variable 
@@ -28,10 +28,11 @@ let blockchain_data = {
     }
 
 
-exports.AssemblyLineInvoke = (row, uid, peer, callback) =>{
+exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
 
     let status = _.filter(blockchain_util.AssemblyStatus,_.matches({"value" : row[asm_cols.STATUS]})); 
     let obj = null;
+    blockchain_data.params.secureContext = secureContext;
     obj = {error_code : -1, 
         assembly_code : row[asm_cols.ASSEMBLY_ID],
         assembly_status : row[asm_cols.STATUS],

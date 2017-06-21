@@ -5,13 +5,188 @@ import {AssemblyStatus} from '../master_data'
 import {formatedDate, formatedDateTimeFromNum} from '../dateutil';
 import {GridList, GridTile} from 'material-ui/GridList';
 
+export default class AssemblyNode extends Component{
+    constructor(props){
+        super(props);
+        this.state = {fnodes:null, tnodes:null, nodedetailstyle:{
+            top:'0px'
+            , left:'0px'
+            , display : 'none'
+        }, nodedata : {
+            assemblyId : ''
+            , deviceSerialNo: ''
+            , deviceType: ''
+            , filamentBatchId : ''
+            , ledBatchId : ''
+            , circuitBoardBatchId: ''
+            , wireBatchId: ''
+            , casingBatchId : ''
+            , adaptorBatchId : ''
+            , stickPodBatchId : ''
+            , manufacturingPlant : '' 
+            , assemblyStatus : ''
+            , assemblyDate : ''
+            , assemblyLastUpdateOn : ''
+            , assemblyCreatedBy : '' 
+            , assemblyLastUpdatedBy : ''
+            ,info1 :''
+            , info2 :''
+        }};
+        
+    }
 
+    clickNode(index){
+        let curNode = this[0];
+        const domNode = ReactDOM.findDOMNode(curNode);
+        let clientRect = domNode.getBoundingClientRect();
+        let item = this.props.hist[index];
+
+        this.setState({
+            nodedetailstyle : {top : ((clientRect.top + clientRect.height)-(clientRect.top - (clientRect.top - 100))).toString() + 'px'
+                            ,left : (((clientRect.left + 45) + ((clientRect.width + 20) * index))-250).toString() + 'px'
+                            , display : (this.state.nodedetailstyle.display=='none' || (this.state.nodedata.assemblyStatus != item.assemblyStatus))?'block':'none'
+                },
+                nodedata : {
+                    assemblyId : item.assemblyId
+                    , deviceSerialNo: item.deviceSerialNo
+                    , deviceType: item.deviceType
+                    , filamentBatchId : item.filamentBatchId
+                    , ledBatchId : item.ledBatchId
+                    , circuitBoardBatchId: item.circuitBoardBatchId
+                    , wireBatchId: item.wireBatchId
+                    , casingBatchId : item.casingBatchId
+                    , adaptorBatchId : item.adaptorBatchId
+                    , stickPodBatchId : item.stickPodBatchId
+                    , manufacturingPlant : item.manufacturingPlant 
+                    , assemblyStatus : item.assemblyStatus
+                    , assemblyDate : item.assemblyDate
+                    , assemblyLastUpdateOn : item.assemblyLastUpdateOn
+                    , assemblyCreatedBy : item.assemblyCreatedBy 
+                    , assemblyLastUpdatedBy : item.assemblyLastUpdatedBy
+                    ,info1 : item.assemblyInfo1
+                    , info2 : item.assemblyInfo2
+        }
+
+        });
+    }
+
+    componentDidMount(){
+        let count = this.props.hist.length;
+        let histItem = -1;
+        if(count>0){
+
+            let fnodes = this.props.hist.map((item)=>{
+                histItem++;
+                let stat= _.filter(AssemblyStatus,_.matches({'id' : parseInt(item.assemblyStatus)}))[0].value;
+                
+                return((histItem==0) ? <div className="sub"
+                        ref={(c) => this[0] = c}
+                        onClick={this.clickNode.bind(this,histItem)}>{stat}</div>
+                        : 
+                        <div className="sub"
+                        onClick={this.clickNode.bind(this,histItem)}>{stat}</div>                        
+                        );
+
+            });
+            this.setState({fnodes:fnodes});            
+
+            let tnodes = this.props.hist.map((item)=>{
+                count--
+                if(count>0){
+                    return(
+                        <div><div className="link">{(count +1).toString()}</div>
+                        <div className="linkList"></div></div>
+                    );
+                }
+                else{
+                    return(
+                        <div className="link">{(count +1).toString()}</div>                        
+                    );
+                }
+            });
+            this.setState({tnodes:tnodes});            
+        }
+    }
+
+    render(){
+
+        return(
+            <div>
+                <div className="floating" style={this.state.nodedetailstyle}>
+                        <img  className="image_arrow" src="../../flow/arrow.png" height="auto" width= "auto" />
+                        <div className="image_box">
+                            <div className="nodeHeader">
+                                <div><img src="../../img/user.png" className="userImage" />                                
+                                    <span className="nodeHeader_item">{(this.state.nodedata.assemblyStatus==='1')?'Created':'Updated'} By : 
+                                    {this.state.nodedata.assemblyLastUpdatedBy}<br />
+                                    </span>
+                                </div>
+                            </div>
+                            <div><hr className="hrclass" /></div>
+                            {(this.state.nodedata.deviceType.toLowerCase().substring(0,4) === 'hold')?
+                            <div>
+                                <div className="nodeItems">Date : {(this.state.nodedata.assemblyDate!="")?formatedDateTimeFromNum(this.state.nodedata.assemblyDate):''}</div>
+                                    <div className="nodeItems">Serial No: {this.state.nodedata.deviceSerialNo}</div>                                                          
+                                    <div className="nodeItems">Filament : {this.state.nodedata.filamentBatchId}</div>
+                                    <div className="nodeItems">LED : {this.state.nodedata.ledBatchId}</div>
+                                    <div className="nodeItems">Circuit Board : {this.state.nodedata.circuitBoardBatchId}</div>
+                                    <div className="nodeItems">Casing : {this.state.nodedata.casingBatchId}</div>
+                                    <div className="nodeItems">Stick Pod : {this.state.nodedata.stickPodBatchId}</div>
+                                    {(typeof this.state.nodedata.info1 != 'undefined' && (this.state.nodedata.info1.length > 0 || this.state.nodedata.info2.length >0))?
+                                        <div><hr className="hrclass" />
+                                            <span className="nodeItems">{this.state.nodedata.info1}<br />{this.state.nodedata.info2}</span>                                            
+                                        </div>
+                                            : ''}                                                                   
+                            </div>:
+                            <div>
+                                <div className="nodeItems">Date : {(this.state.nodedata.assemblyDate!="")?formatedDateTimeFromNum(this.state.nodedata.assemblyDate):''}</div>                                
+                                    <div className="nodeItems">Serial No: {this.state.nodedata.deviceSerialNo}</div> 
+                                    <div className="nodeItems">Adapter : {this.state.nodedata.adaptorBatchId}</div>
+                                    <div className="nodeItems">Wire : {this.state.nodedata.wireBatchId}</div>
+                                    {(typeof this.state.nodedata.info1 != 'undefined' && (this.state.nodedata.info1.length > 0 || this.state.nodedata.info2.length >0))?
+                                        <div><hr className="hrclass" />
+                                            <span className="nodeItems">{this.state.nodedata.info1}<br />{this.state.nodedata.info2}</span>                                            
+                                        </div>
+                                            : ''}  
+                            </div>}
+                        </div>
+                </div>
+                <table className="content" >
+                    <tr>
+                        <td>
+                            {(this.state.fnodes!=null)?this.state.fnodes:''}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div className="extra"></div>
+                            {(this.state.tnodes!=null)?this.state.tnodes:''}                                        
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        );
+    }
+}
+
+
+/*
+const floating = (props) => {
+
+
+    return(
+                    <div id="floating_div" className="floating" >
+                        <img  className="image_arrow" src="../../flow/arrow.png" height="auto" width= "auto" />
+                        <div className="image_box"></div>
+                    </div>
+    )
+}
 
 export default class AssemblyNode extends Component{
 
     constructor(props){
         super(props);
-        this.state = {viewdetail:'hide', viewmore:'hide', info1:'', info2:''};
+        this.state = {viewdetail:'hide', viewmore:'hide', info1:'', info2:'', setStyle:{display:'none', left : '0px', top : '0px'}};
         
     }
     
@@ -21,6 +196,13 @@ export default class AssemblyNode extends Component{
 
     }
     showDetails(){
+        //alert(event.clientX);
+        //s = document.getElementById('floating_div');
+        //alert(floating);
+        this.setState({setStyle:{display:'block'
+            , left : event.clientX.toString() +'px'
+            , top : event.clientY.toString() +'px'
+        }});
         this.setState({viewdetail:'show'});
     }
 
@@ -96,41 +278,16 @@ export default class AssemblyNode extends Component{
                             </div>
                         </GridTile>
                 </GridList>
+                <div id="floating_div" className="floating" style={this.state.setStyle}>
+                        <img  className="image_arrow" src="../../flow/arrow.png" height="auto" width= "auto" />
+                        <div className="image_box"></div>
+                </div>
             </div>            
         );
 
-
-
-
-
-
-/*        
-            trStatus = this.props.assemblyHistory.map((item)=>{
-                count--;
-                let td = null;
-                let stat = _.filter(AssemblyStatus,_.matches({'id' : parseInt(item.assemblyStatus)}))[0].value;
-                return(<td>
-                            <div className="asm_1">
-                                {stat}
-                            </div>
-                            {(count>0)?<div className="arrowdiv"><img src="../../img/right-arrow.png" className="arrow" /></div> : ''}
-                    </td>                            
-                );
-            });
-
-            trDetails = this.props.assemblyHistory.map((item)=>{
-                let td = null;
-                let stat = _.filter(AssemblyStatus,_.matches({'id' : parseInt(item.assemblyStatus)}))[0].value;
-                return(<td>
-                            <div className="nodeDetail" key={item.assemblyId}>
-                                <img src="../../img/user.png" className="userImage" /> [User Id : {item.assemblyLastUpdatedBy}]
-                            </div>
-                    </td>                            
-                );
-            });
-*/
 
     }
 
 
 }
+*/

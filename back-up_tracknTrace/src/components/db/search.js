@@ -17,6 +17,7 @@ import {Field,
     formValueSelector, initialize} from 'redux-form';
 import {connect} from 'react-redux';
 import {getAssemblyInfo_DB, getPackagingInfo_DB, getAssembliesHistoryByDate} from '../../actions/index';
+import {AssemblySearchFields} from '../../master_data';
 
 
 class SearchPane extends Component{
@@ -35,10 +36,20 @@ class SearchPane extends Component{
         let collection = null;
         let onChangeFunc = null;
         let val = null;
-
-        onChangeFunc = (value) =>{console.log(value);}
+        switch(key){
+            case 'SearchCriteria':
+                collection = AssemblySearchFields;
+                onChangeFunc = (value) =>{return;}
+                break;   
+                                                                             
+            default:
+                collection = [];
+                onChangeFunc = (value) =>{return;}
+                break;
+        }
+        //onChangeFunc = (value) =>{console.log(value);}
         
-        return renderFormControl(fieldConfig, key, null, null, onChangeFunc);
+        return renderFormControl(fieldConfig, key, collection, null, onChangeFunc);
     }
 
     componentDidMount()
@@ -77,6 +88,9 @@ class SearchPane extends Component{
 
 
     onSubmit(values){
+        
+        console.log(values);
+
 
         if(this.props.module === 'Assembly'){
             //this.props.getAssemblyInfo_DB(values.SearchFromDate, values.SearchToDate)
@@ -96,9 +110,9 @@ class SearchPane extends Component{
                 <MuiThemeProvider>
                     <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                         <div className="searchPan">
-                            <h4>Production Date Range</h4>
+                            <h4>{this.props.module} Search Criteria</h4>
                             <div>
-                                <GridList cols={1} cellHeight={65}>
+                                <GridList cols={2} cellHeight={85}>
                                 {_.keys(FIELDS_SEARCH).map((key)=>{
                                     let field = _.at(FIELDS_SEARCH,key)[0];
                                         return <GridTile key={key}>
@@ -110,7 +124,7 @@ class SearchPane extends Component{
                                 </GridList>
                             </div>
                             <div id="top-button-panel" className="row">
-                                <div className="col-md-11 text-right"><Button type="submit" bsStyle="primary">Search</Button></div>
+                                <div className="col-md-12 text-right"><Button type="submit" bsStyle="primary">Search</Button></div>
                             </div> 
                         </div>
                     </form>
@@ -126,7 +140,8 @@ class SearchPane extends Component{
 
 SearchPane =  reduxForm({
     form:'SearchForm',
-    initialValues:{SearchFromDate:new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000)), SearchToDate:new Date()}
+    initialValues:{SearchFromDate:new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000)), 
+        SearchToDate:new Date(), SearchCriteria:'', SearchValue:''}
 })(SearchPane)
 
 

@@ -41,33 +41,6 @@ const rootReducer = combineReducers({
   packaging: packaging,
   packaging_db: packaging_db,  
   form:formReducer
-  
-  
-  /*.plugin({
-    NewAssemblyForm : (state,action) =>{
-      console.log(state)
-      switch(action.type){
-        case GET_ASSEMBLY_BY_ID:
-      if (typeof state == 'undefined') return state;
-
-       return Object.assign({},state.registeredFields.deviceSerialNo,
-        
-          {
-            value : JSON.parse(action.payload.data.result.message)[0].deviceSerialNo
-          }        
-        
-        
-        );
-
-
-
-
-
-
-              
-      }
-    }
-  })*/
 });
 
 export default rootReducer;

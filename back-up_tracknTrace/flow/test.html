@@ -1,0 +1,179 @@
+<html>
+ <head>
+ <style>
+     
+.main{
+    width:60%;
+    background:#f2f2f2;
+    min-height:150px;
+    position: relative;
+    margin: 0 auto;
+
+}
+.block1{
+    position: relative;
+}
+.block2{
+    position: relative;
+    display: block;
+}
+ .sub{
+     width:80px;
+     float:left;
+     min-height:50px;
+     padding:10px;
+     background:#cccccc;
+     margin:10px;
+     border:1px solid black;
+     cursor: pointer; cursor: hand;
+ }
+ .link{
+     width:80px;
+     float:left;
+     min-height:10px;
+     padding:10px;
+     background:#f9f9f9;
+     border:1px solid black;
+     margin-bottom: 10px;
+     
+ }
+ .linkList{
+     width: 18px;
+     float: left;
+     min-height: 1px;
+     background: #010101;
+     margin-top: 18px;
+     border: 1px solid black;
+     
+ }
+ .extra{
+     width: 10px;
+     float: left;
+     min-height: 1px;
+
+ }
+ .floating{
+     position:absolute;
+     float:left;
+     z-index: 10;
+     /*margin-top: 120px;
+     margin-left: 580px;*//* chnage total div position*/
+     display: none;
+ }
+
+ .image_arrow{
+     height: 30px;
+     width: 30px;
+     margin-bottom: -10px;
+     margin-left:5px;/* chnage arrow position*/
+ }
+ .image_box{
+     height: 150px;
+     width: 150px;
+     background: rgb(250,247,182)
+ }
+
+.container{
+    margin : 0 auto;
+    width : auto;
+    border: 1px solid;
+
+}
+
+.content{
+    width:862px;
+    margin : 0 auto;    
+    border: 1px solid;
+    
+
+    }
+  </style>
+ 
+ </head>
+    <body>
+        <!--
+<div class="main">
+        <div class="sub">1</div>
+        <div class="sub">2</div>
+        <div class="sub">3</div>
+        <div class="sub">4</div>
+        <div class="sub">5</div>
+        <div class="sub">6</div>
+
+        <div class="extra"></div>
+        <div class="link">1</div>
+        <div class="linkList"></div>
+        <div class="link">2</div>
+        <div class="linkList"></div>
+        <div class="link">3</div>
+        <div class="linkList"></div>
+        <div class="link">4</div>
+        <div class="linkList"></div>
+        <div class="link">5</div>
+        <div class="linkList"></div>
+        <div class="link">6</div>
+
+    
+
+
+</div>-->
+
+    <div id="floating_div" class="floating">
+        <img  class="image_arrow" src="./arrow.png" height="auto" width= "auto">
+        <div class="image_box"></div>
+    </div>
+
+<table class="container">
+    <tr><td>
+    <table class="content" >
+        
+  <tr>
+    <td>
+        <div class="sub" onclick="show();">1</div>
+        <div class="sub">2</div>
+        <div class="sub">3</div>
+        <div class="sub">4</div>
+        <div class="sub">5</div>
+        <div class="sub">6</div>
+                <div class="sub">7</div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <div class="extra"></div>
+        <div class="link">1</div>
+        <div class="linkList"></div>
+        <div class="link">2</div>
+        <div class="linkList"></div>
+        <div class="link">3</div>
+        <div class="linkList"></div>
+        <div class="link">4</div>
+        <div class="linkList"></div>
+        <div class="link">5</div>
+        <div class="linkList"></div>
+        <div class="link">6</div>        
+        <div class="linkList"></div>
+        <div class="link">7</div> 
+    </td>
+  </tr>
+</table>
+</td></tr>
+</table>
+
+<script>
+
+    var show = ()=>{
+        s = document.getElementById('floating_div');
+        //alert(s);
+        s.style.display = 'block';
+        s.style.left = event.clientX.toString() +'px';; 
+        s.style.top = event.clientY.toString() +'px';; 
+        
+        //alert(event.clientX);
+    }
+
+</script>
+
+</body>
+
+</html>

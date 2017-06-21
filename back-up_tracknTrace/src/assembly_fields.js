@@ -110,7 +110,6 @@ export const FIELDS_HOLDER = {
      }     
 }
 
-
 export const FIELDS_CHARGER= {
          wireBatchId : {
         type : 'input',

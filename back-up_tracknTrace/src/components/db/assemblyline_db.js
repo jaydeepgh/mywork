@@ -27,7 +27,7 @@ class AssemblyLineDB extends Component
         return(
              <MuiThemeProvider>
                 <div>
-                    <h1>Assembly Line</h1>
+                    <h1 className="ModuleCaption">Assembly Line</h1>
                     <Panel>
                     <div>
                         <AssemblyLineChart />

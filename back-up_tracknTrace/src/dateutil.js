@@ -29,7 +29,7 @@ export const formatedDateTimeFromNum = (num) =>{
     var h = adt.substring(8,10);
     var min = adt.substring(10,12);
     var sec = adt.substring(12,14);
-
+    console.log(m);
     var strM = _.filter(month,_.matches({'seq':parseInt(m)}))[0].month;
     return `${d}-${strM}-${y} ${h}:${min}`;
 }

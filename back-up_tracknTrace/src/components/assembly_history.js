@@ -31,20 +31,7 @@ class AssemblyHistory extends Component{
     componentDidMount(){
         
         this.props.getAssemblyHistoryById(this.props.assemblyId,this.props.userstate).then(()=>{
-
-            let nodes = null;
-            let count = this.props.assemblyHistory.length;
-            if(count > 0){
-
-                nodes = this.props.assemblyHistory.map((item)=>{
-                    
-                    count--;
-                    return(
-                                    <AssemblyNode key={item.assemblyLastUpdateOn} assemblynode={item} arrowrequired={(count>0)?'true':'false'} className="nodeContainer" />                                    
-                        );            
-                    });
-                    this.setState({nodes});
-            }            
+            this.setState({nodes:<AssemblyNode hist={this.props.assemblyHistory} />});
         });
     }
 
@@ -61,7 +48,7 @@ class AssemblyHistory extends Component{
                         </Modal.Header>
                         <Modal.Body className="asmHist">            
                             <div>
-                                        {(this.state.nodes!=null)?this.state.nodes:''}
+                                {(this.state.nodes!=null)?this.state.nodes:''}
                             </div>
                         </Modal.Body>
                         <Modal.Footer>

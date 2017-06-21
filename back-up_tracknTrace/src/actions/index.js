@@ -3,8 +3,11 @@ import {INITIALIZE} from 'redux-form';
 import {strToDate,dateToStr,dateToNum} from '../dateutil';
 
 //BLOCKCHAIN CONSTANTS
-const CHAIN_URL = 'https://73efed29720e41d79593d61a837a1f47-vp0.us.blockchain.ibm.com:5004/chaincode';
-const CHAIN_CODE_ID = '30771480f653138fab130d5cb1482e652cc2a7e9181a5343a1bf412ba4149f3600a5a056999a95439f14d335a11bd03fab92624989bb01a6195c68d2005f4e1b';
+//_chain_node_peer_
+//const CHAIN_URL = 'https://73efed29720e41d79593d61a837a1f47-vp_chain_node_peer_.us.blockchain.ibm.com:5004/chaincode';
+const CHAIN_CODE_ID = '02e6f26e006adf3e362fc74fd23c35f2b0aad6110d9b829b4a4c30091bde4d5af2cda1b8db34ee2db206443514c47e04a763fb0d0f66953bf651d3efc4b06963';
+export const BACKEND_APP_URL = 'http://localhost:5000';
+
 
 
 //ACTIONS
@@ -48,7 +51,22 @@ export const SEARCH_FROM_DATE_CHANGE = 'SEARCH_FROM_DATE_CHANGE';
 export const SEARCH_TO_DATE_CHANGE = 'SEARCH_TO_DATE_CHANGE';
 
 
-
+let data = {
+        jsonrpc: "2.0",
+        method: '',
+        params: {
+            type: 1,
+            chaincodeID: {
+            name: CHAIN_CODE_ID
+            },
+            ctorMsg: {
+            function: '',
+            args: []
+            },
+            secureContext: "user_type1_0"
+        },
+        id: 0
+    }
 
 
 //DB ACTION CREATORS
@@ -65,13 +83,94 @@ export function getAssemblyInfo_DB(fromDate,toDate){
     }
 }
 
+export function getPackagingInfo_DB(fromDate,toDate){
+    let fromDt = `${fromDate.getFullYear()}-${fromDate.getMonth()+1}-${fromDate.getDate()}`;
+    let toDt = `${toDate.getFullYear()}-${toDate.getMonth()+1}-${toDate.getDate()}`;
+    const request = axios.get(`${URL_GET_PACKAGING}?fromdt=${fromDt}&todt=${toDt}`);
+    //console.log(request);
+    return{
+        type:GET_PACKAGING_INFO_DETAILS,
+        payload: request
+    }
+}
 
+//User state setup
+export function setUserState(id, role, chainnode, secureContext){
+
+    var node_url = `https://26014aa836234dc58cd1a23588e0db8d-vp${chainnode.toString()}.us.blockchain.ibm.com:5002/chaincode`;
+    // `https://6de494b1c04d48049b642bba6f9fbdc1-vp${chainnode.toString()}.us.blockchain.ibm.com:5004/chaincode`;
+    var userState = {id:id, role:role, node_url:node_url, secureContext: secureContext};
+    return{
+        type:SET_USER,
+        payload: userState
+    }
+}
+
+export function clearUserState(id, role, chainnode){
+    var userState = {id:'', role:'', node_url:null, secureContext: ''};
+    return{
+        type:CLEAR_USER,
+        payload: userState
+    }
+}
+
+export function selectDeviceType(value){
+    //console.log(value);
+    return{
+        type : SELECT_DEVICE_TYPE,
+        payload : value
+    }
+}
+
+
+
+//blockchain calls 
+//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
+export const GET_ASSEMBLIES_BY_DATE = 'GET_ASSEMBLIES_BY_DATE';
+export const GET_ASSEMBLIES_HISTORY_BY_BATCH_NUMBER_AND_DATE = 'GET_ASSEMBLIES_HISTORY_BY_BATCH_NUMBER_AND_DATE';
+
+//landing default
+export function getAssembliesByDate(fromDate,toDate, userstate){
+    let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
+    let toDt_bc = `${dateToNum(toDate).toString()}235959`;
+    data.method = 'query';
+    data.params.ctorMsg.function = 'getAssembliesByDate';
+    data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
+    data.params.secureContext = userstate.secureContext;
+
+    const request = axios.post(userstate.chainnode_url,JSON.stringify(data));
+    return{
+        type:GET_ASSEMBLIES_BY_DATE,
+        payload: request
+    }
+}
+
+//advance Search
+export function getAssembliesHistoryByBatchNumberAndByDate(searchField, searchValue, fromDate,toDate, userstate){
+    let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
+    let toDt_bc = `${dateToNum(toDate).toString()}235959`;
+    data.method = 'query';
+    data.params.ctorMsg.function = 'getAssembliesByDate';
+    data.params.ctorMsg.args = [searchField, searchValue, fromDt_bc, toDt_bc, userstate.id];
+    data.params.secureContext = userstate.secureContext;
+
+    const request = axios.post(userstate.chainnode_url,JSON.stringify(data));
+    return{
+        type:GET_ASSEMBLIES_HISTORY_BY_BATCH_NUMBER_AND_DATE,
+        payload: request
+    }
+}
+
+
+// chart
 export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
     data.method = 'query';
     data.params.ctorMsg.function = 'getAssembliesHistoryByDate';
     data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
+    data.params.secureContext = userstate.secureContext;
+    
     const request = axios.post(userstate.chainnode_url,JSON.stringify(data)).then((res)=>{
 
 
@@ -131,7 +230,7 @@ export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
 
 
     });
-    console.log(request);
+    //console.log(request);
     return{
         type:GET_ASSEMBLY_CHART,
         payload: request
@@ -139,71 +238,7 @@ export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
 
 }
 
-
-
-export function getPackagingInfo_DB(fromDate,toDate){
-
-
-//console.log(fromDate);
-    let fromDt = `${fromDate.getFullYear()}-${fromDate.getMonth()+1}-${fromDate.getDate()}`;
-    let toDt = `${toDate.getFullYear()}-${toDate.getMonth()+1}-${toDate.getDate()}`;
-    const request = axios.get(`${URL_GET_PACKAGING}?fromdt=${fromDt}&todt=${toDt}`);
-    //console.log(request);
-    return{
-        type:GET_PACKAGING_INFO_DETAILS,
-        payload: request
-    }
-}
-
-
-export function setUserState(id, role, chainnode){
-
-    //`https://6de494b1c04d48049b642bba6f9fbdc1-vp${chainnode.toString()}.us.blockchain.ibm.com:5004/chaincode`
-    var node_url = `https://6de494b1c04d48049b642bba6f9fbdc1-vp${chainnode.toString()}.us.blockchain.ibm.com:5004/chaincode`;
-    //`https://73efed29720e41d79593d61a837a1f47-vp${chainnode.toString()}.us.blockchain.ibm.com:5004/chaincode`;
-    var userState = {id:id, role:role, node_url:node_url};
-    return{
-        type:SET_USER,
-        payload: userState
-    }
-}
-
-
-export function clearUserState(id, role, chainnode){
-    var userState = {id:'', role:'', node_url:null};
-    return{
-        type:CLEAR_USER,
-        payload: userState
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-//ACTION CREATORS
-export function getAllPackagingItems() 
-{
-
-    data.method = 'query';
-    data.params.ctorMsg.function = 'getAllPackages';
-    data.params.ctorMsg.args = [];
-
-    const request = axios.post(CHAIN_URL,JSON.stringify(data));
-    //console.log(request);
-
-    return{
-        type:GET_ALL_PACKAGING_ITEMS,
-        payload: request
-    }
-}
-
+/*
 export function getAllAssemblyLinesByStatus(status)
 {
     //console.log(status);
@@ -219,55 +254,9 @@ export function getAllAssemblyLinesByStatus(status)
         payload: request
     }
 }
+*/
 
-
-
-export function selectDeviceType(value){
-    //console.log(value);
-    return{
-        type : SELECT_DEVICE_TYPE,
-        payload : value
-    }
-}
-
-
-let data = {
-        jsonrpc: "2.0",
-        method: '',
-        params: {
-            type: 1,
-            chaincodeID: {
-            name: CHAIN_CODE_ID
-            },
-            ctorMsg: {
-            function: '',
-            args: []
-            },
-            secureContext: "user_type1_0"
-        },
-        id: 0
-    }
-
-
-
-export function getAllAssemblyLines(userstate)
-{
-    data.method = 'query';
-    data.params.ctorMsg.function = 'getAllAssemblies';
-    data.params.ctorMsg.args = [userstate.id];
-
-    const request = axios.post(userstate.chainnode_url,JSON.stringify(data));
-
-    //console.log(request);
-    return{
-        type:GET_ALL_ASSEMBLY_ITEMS,
-        payload: request
-    }
-}
-
-
-//export const GET_ASSEMBLY_LINE_HIST_BY_ID = 'GET_ASSEMBLY_LINE_HIST_BY_ID';  
-
+//this is for history
 export function getAssemblyHistoryById(assemblyId, userstate)
 {
     data.method = 'query';
@@ -282,12 +271,6 @@ export function getAssemblyHistoryById(assemblyId, userstate)
         payload: request
     }
 }
-
-
-
-
-
-
 
 export function getAssemblyLinesById(id, userstate)
 {
@@ -334,6 +317,76 @@ export function getAssemblyLinesById(id, userstate)
     }
 }
 
+export function getAllAssemblyLines(userstate)
+{
+    data.method = 'query';
+    data.params.ctorMsg.function = 'getAllAssemblies';
+    data.params.ctorMsg.args = [userstate.id];
+    data.params.secureContext = userstate.secureContext;
+
+    const request = axios.post(userstate.chainnode_url,JSON.stringify(data));
+
+    //console.log(request);
+    return{
+        type:GET_ALL_ASSEMBLY_ITEMS,
+        payload: request
+    }
+}
+
+export function getAllPackagingItems() 
+{
+
+    data.method = 'query';
+    data.params.ctorMsg.function = 'getAllPackages';
+    data.params.ctorMsg.args = [];
+    data.params.secureContext = userstate.secureContext;
+
+    const request = axios.post(CHAIN_URL,JSON.stringify(data));
+    //console.log(request);
+
+    return{
+        type:GET_ALL_PACKAGING_ITEMS,
+        payload: request
+    }
+}
+
+export function getPackageById(id, userstate)
+{
+    //console.log(id);
+    data.method = 'query';
+    data.params.ctorMsg.function = 'getPackageByID';
+    data.params.ctorMsg.args = [id, userstate.id];
+    data.params.secureContext = userstate.secureContext;
+    
+    //console.log(data);
+
+    let request = null;
+    
+    if(id!='0'){
+        request = axios.post(userstate.chainnode_url,JSON.stringify(data));        
+    }else{
+        request = 
+        {data:   {caseId : Date.now().toString()
+                    , holderAssemblyId : ''
+                    , chargerAssemblyId : ''
+                    , packageStatus : 0
+                    , packagingDate : new Date()
+                    , packagingCreationDate : new Date()
+                    , packageLastUpdateOn : new Date()
+                    , shippingToAddress : ''
+                    , packageCreatedBy : userstate.id
+                    , packageLastUpdatedBy : userstate.id} }       
+    }
+    
+    //console.log(request);
+
+    return{
+        type:GET_PACKAGE_BY_ID,
+        payload: request
+    }
+}
+//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
+    //invoke methods
 export function createAssemblyLines(formValues, userstate)
 {
     //alert('inside action creator'); 
@@ -388,8 +441,6 @@ export function createAssemblyLines(formValues, userstate)
     }
 }
 
-
-
 export function updateAssemblyLines(formValues, userstate)
 {
 
@@ -437,43 +488,6 @@ export function updateAssemblyLines(formValues, userstate)
 
     return{
         type:UPDATE_ASSEMBLY,
-        payload: request
-    }
-}
-
-
-
-
-export function getPackageById(id, userstate)
-{
-    //console.log(id);
-    data.method = 'query';
-    data.params.ctorMsg.function = 'getPackageByID';
-    data.params.ctorMsg.args = [id, userstate.id];
-    //console.log(data);
-
-    let request = null;
-    
-    if(id!='0'){
-        request = axios.post(userstate.chainnode_url,JSON.stringify(data));        
-    }else{
-        request = 
-        {data:   {caseId : Date.now().toString()
-                    , holderAssemblyId : ''
-                    , chargerAssemblyId : ''
-                    , packageStatus : 0
-                    , packagingDate : new Date()
-                    , packagingCreationDate : new Date()
-                    , packageLastUpdateOn : new Date()
-                    , shippingToAddress : ''
-                    , packageCreatedBy : userstate.id
-                    , packageLastUpdatedBy : userstate.id} }       
-    }
-    
-    //console.log(request);
-
-    return{
-        type:GET_PACKAGE_BY_ID,
         payload: request
     }
 }
@@ -538,8 +552,6 @@ export function createPackageingItem(formValues, assemblies, userstate)
     }
 }
 
-
-
 export function updatePackagingLine(formValues, assemblies, userstate)
 {
 
@@ -599,32 +611,3 @@ export function updatePackagingLine(formValues, assemblies, userstate)
         payload: request
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

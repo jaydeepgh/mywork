@@ -27,7 +27,7 @@ class PackagingDB extends Component
         return(
              <MuiThemeProvider>
                 <div>
-                    <h1>Packaging Line</h1>
+                    <h1 className="ModuleCaption">Packaging Line</h1>
                     <Panel>
                     <div>
                         <PackagingChart />
