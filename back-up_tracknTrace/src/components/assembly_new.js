@@ -63,7 +63,10 @@ class NewAssembly extends Component
         }
     }
 
-
+    GetActualError(err){
+        let startIndex = (err.lastIndexOf(":") + 1);
+        return err.substring(startIndex);
+    }
 
     onSubmit(values){
 
@@ -76,12 +79,15 @@ class NewAssembly extends Component
         }else{
             this.props.updateAssemblyLines(values, this.props.userstate)
             .then((res)=>{
-                    this.context.router.push('/Assembly');
+                console.log(res);
+                if(typeof res.data != 'undefined' && typeof res.data.error != 'undefined'){
+                    alert(this.GetActualError.bind(this,res.data.error.data));
+                }else{
+                    this.context.router.push('/Assembly');                    
+                }
             })
             .catch((err)=>{console.log(err);});
         }
-
-
     }
 
     getControls(fieldConfig, key)
@@ -104,9 +110,6 @@ class NewAssembly extends Component
         }
         return renderFormControl(fieldConfig, key, collection, null, onChangeFunc);
     }
-
-
-
 
     render()
     {
@@ -135,10 +138,15 @@ class NewAssembly extends Component
                                     let field = _.at(FIELDS_ASSEMBLY,key)[0];
                                     //alert(this.props.initialValues.assemblyStatus); 
                                     //console.log(this.props.initialValues.assemblyStatus);
-                                    if(this.props.initialValues.assemblyStatus != '' && parseInt(this.props.initialValues.assemblyStatus) >= 6){field.disabled = true;}else{
+                                    //if(this.props.initialValues.assemblyStatus != '' && parseInt(this.props.initialValues.assemblyStatus) >= 6)
+                                    //{
+                                    //    field.disabled = true;
+                                    //}
+                                    //else
+                                    //{
                                             if(key!='assemblyId' && key!= 'assemblyLastUpdateOn' )
                                             field.disabled = false;
-                                            }                                  
+                                    //}                                  
                                     if(id==='0'){
                                         switch(key){
                                             case 'assemblyStatus':

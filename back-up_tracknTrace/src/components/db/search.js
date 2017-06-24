@@ -16,7 +16,13 @@ import {Field,
     reduxForm, 
     formValueSelector, initialize} from 'redux-form';
 import {connect} from 'react-redux';
-import {getAssemblyInfo_DB, getPackagingInfo_DB, getAssembliesHistoryByDate} from '../../actions/index';
+import {getAssemblyInfo_DB
+        , getPackagingInfo_DB
+        , getAssembliesHistoryByDate
+        , getAssembliesByDate
+        , getAssembliesHistoryByBatchNumberAndByDate
+        , setSearchCriteria
+        , clearSearchCriteria} from '../../actions/index';
 import {AssemblySearchFields} from '../../master_data';
 
 
@@ -60,13 +66,15 @@ class SearchPane extends Component{
         }
 
         let toDt = new Date();
-        let fromDt = new Date(toDt.getTime() - (7 * 24 * 60 * 60 * 1000));
+        let fromDt = new Date(toDt.getTime() - (6 * 24 * 60 * 60 * 1000));
         
         if(this.props.module==='Assembly'){
             //this.props.getAssemblyInfo_DB(fromDt,toDt)
+                        
             this.props.getAssembliesHistoryByDate(fromDt, toDt, this.props.userstate)
             .then(()=>{
                 this.setState({loaded:true});
+                this.props.getAssembliesByDate(fromDt, toDt, this.props.userstate);
             })
             .catch((err)=>
             {
@@ -89,22 +97,50 @@ class SearchPane extends Component{
 
     onSubmit(values){
         
-        console.log(values);
+        //console.log(values);
 
-
+        
         if(this.props.module === 'Assembly'){
-            //this.props.getAssemblyInfo_DB(values.SearchFromDate, values.SearchToDate)
-            this.props.getAssembliesHistoryByDate(values.SearchFromDate, values.SearchToDate, this.props.userstate)
+            if(values.SearchCriteria != '' && values.SearchValue != ''){
+
+                this.props.getAssembliesHistoryByDate(values.SearchFromDate
+                            , values.SearchToDate, this.props.userstate).then(()=>{
+                            this.props.getAssembliesHistoryByBatchNumberAndByDate(values.SearchCriteria
+                                    , values.SearchValue
+                                    , values.SearchFromDate
+                                    , values.SearchToDate
+                                    , this.props.userstate)
+                            });
+  
+          }else{
+                this.props.getAssembliesHistoryByDate(values.SearchFromDate
+                , values.SearchToDate
+                , this.props.userstate).then(()=>{
+                    this.props.getAssembliesByDate(values.SearchFromDate
+                    , values.SearchToDate
+                    , this.props.userstate)
+                }); 
+                
+            }
         }
         else{
             this.props.getPackagingInfo_DB(values.SearchFromDate, values.SearchToDate)            
         }
+        this.props.setSearchCriteria(values);
     }
 
-
+    clearSearchCriteria(){
+        this.props.clearSearchCriteria();
+    }
     render(){
         const {handleSubmit, 
-            searchDateChange, getAssembliesHistoryByDate 
+            getAssemblyInfo_DB
+            , getPackagingInfo_DB
+            , getAssembliesHistoryByDate
+            , getAssembliesByDate
+            , getAssembliesHistoryByBatchNumberAndByDate 
+            , setSearchCriteria
+            , clearSearchCriteria
         } = this.props; 
             return(
                 <MuiThemeProvider>
@@ -124,7 +160,12 @@ class SearchPane extends Component{
                                 </GridList>
                             </div>
                             <div id="top-button-panel" className="row">
-                                <div className="col-md-12 text-right"><Button type="submit" bsStyle="primary">Search</Button></div>
+                                <div className="col-md-12 text-right">
+                                    <ButtonToolbar>
+                                        <Button type="reset" bsStyle="danger" onClick={this.clearSearchCriteria.bind(this)}>Clear Search Criteria</Button> 
+                                        <Button type="submit" bsStyle="primary">Search</Button>
+                                    </ButtonToolbar>
+                                </div>                            
                             </div> 
                         </div>
                     </form>
@@ -140,15 +181,23 @@ class SearchPane extends Component{
 
 SearchPane =  reduxForm({
     form:'SearchForm',
-    initialValues:{SearchFromDate:new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000)), 
-        SearchToDate:new Date(), SearchCriteria:'', SearchValue:''}
+    //initialValues:{SearchFromDate:new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000)), 
+    //    SearchToDate:new Date(), SearchCriteria:'', SearchValue:''}
+    enableReinitialize: true
 })(SearchPane)
 
 
 SearchPane = connect(state => ({
-  userstate : state.userstate
+  userstate : state.userstate,
+  initialValues : state.search_criteria
 })
-,{getAssemblyInfo_DB, getPackagingInfo_DB, getAssembliesHistoryByDate}         
+,{getAssemblyInfo_DB
+, getPackagingInfo_DB
+, getAssembliesHistoryByDate
+, getAssembliesByDate
+, getAssembliesHistoryByBatchNumberAndByDate
+, setSearchCriteria
+, clearSearchCriteria}         
 )(SearchPane)
 
 export default SearchPane;

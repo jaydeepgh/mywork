@@ -68,7 +68,21 @@ export const FIELDS_ASSEMBLY = {
         populatechild : null,
         disabled : false,
         onChange : null
-     }
+     },
+        assemblyInfo1 : {
+        type : 'input',
+        label : 'Comment',
+        populatechild : null,
+        disabled : false,
+        onChange : null
+     },
+        assemblyInfo2 : {
+        type : 'input',
+        label : 'Other Information',
+        populatechild : null,
+        disabled : false,
+        onChange : null
+     }     
 }    
 
 export const FIELDS_HOLDER = {

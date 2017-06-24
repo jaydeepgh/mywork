@@ -13,7 +13,7 @@ export default function(state=INITIAL_STATE, action)
             return Object.assign({},state,{id:action.payload.id, role:action.payload.role, chainnode_url:action.payload.node_url, secureContext: action.payload.secureContext});
             break;
         case CLEAR_USER:
-            return Object.assign({},state,{id:action.payload.id, role:action.payload.role, chainnode_url:action.payload.node_ur, secureContext: action.payload.secureContextl});        
+            return Object.assign({},state,{id:action.payload.id, role:action.payload.role, chainnode_url:action.payload.node_ur, secureContext: action.payload.secureContext});        
             break;
         default:
             return state;

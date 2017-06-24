@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {INITIALIZE} from 'redux-form';
-import {strToDate,dateToStr,dateToNum} from '../dateutil';
+import {strToDate,dateToStr,dateToNum,datetimeToStr} from '../dateutil';
 
 //BLOCKCHAIN CONSTANTS
 //_chain_node_peer_
@@ -28,7 +28,8 @@ export const CLEAR_USER = 'CLEAR_USER';
 export const GET_ASSEMBLY_LINE_HIST_BY_ID = 'GET_ASSEMBLY_LINE_HIST_BY_ID';  
 export const GET_ASSEMBLY_CHART = 'GET_ASSEMBLY_CHART';
 
-
+export const GET_ASSEMBLIES_BY_DATE = 'GET_ASSEMBLIES_BY_DATE';
+export const GET_ASSEMBLIES_HISTORY_BY_BATCH_NUMBER_AND_DATE = 'GET_ASSEMBLIES_HISTORY_BY_BATCH_NUMBER_AND_DATE';
 
 //DB CONSTANTS (Private)
 const CLOUDANT_URL = 'https://tracktracedb-chestnutty-biome.mybluemix.net'; // http://localhost:3000'; //'https://tracktracedb-chestnutty-biome.mybluemix.net';//
@@ -47,11 +48,11 @@ export const GET_PACKAGING_INFO_DETAILS = 'GET_PACKAGING_INFO_DETAILS';
 export const LOG_ASSEMBLY_ACTION = 'LOG_ASSEMBLY_ACTION';
 
 
-export const SEARCH_FROM_DATE_CHANGE = 'SEARCH_FROM_DATE_CHANGE';
-export const SEARCH_TO_DATE_CHANGE = 'SEARCH_TO_DATE_CHANGE';
+export const SEARCH_CRITERIA_CHANGE = 'SEARCH_CRITERIA_CHANGE';
+export const SEARCH_CRITERIA_RESET = 'SEARCH_CRITERIA_RESET';
 
 
-let data = {
+export let data = {
         jsonrpc: "2.0",
         method: '',
         params: {
@@ -94,6 +95,28 @@ export function getPackagingInfo_DB(fromDate,toDate){
     }
 }
 
+//CHANGE SEARCH CRITERIA
+
+//SEARCH_CRITERIA_CHANGE
+export function setSearchCriteria(values){
+    const request = {SearchFromDate:values.SearchFromDate
+                            , SearchToDate:values.SearchToDate
+                            , SearchCriteria:values.SearchCriteria
+                            , SearchValue:values.SearchValue};
+    return{
+        type:SEARCH_CRITERIA_CHANGE,
+        payload: request
+    }    
+}
+
+export function clearSearchCriteria(){
+
+    return {
+        type : SEARCH_CRITERIA_RESET,
+        payload : null
+    }
+}
+
 //User state setup
 export function setUserState(id, role, chainnode, secureContext){
 
@@ -126,8 +149,7 @@ export function selectDeviceType(value){
 
 //blockchain calls 
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4
-export const GET_ASSEMBLIES_BY_DATE = 'GET_ASSEMBLIES_BY_DATE';
-export const GET_ASSEMBLIES_HISTORY_BY_BATCH_NUMBER_AND_DATE = 'GET_ASSEMBLIES_HISTORY_BY_BATCH_NUMBER_AND_DATE';
+
 
 //landing default
 export function getAssembliesByDate(fromDate,toDate, userstate){
@@ -138,7 +160,9 @@ export function getAssembliesByDate(fromDate,toDate, userstate){
     data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
     data.params.secureContext = userstate.secureContext;
 
+    //console.log(fromDt_bc + '>>>' + toDt_bc + '>>>' + userstate.id);
     const request = axios.post(userstate.chainnode_url,JSON.stringify(data));
+    //console.log(request);
     return{
         type:GET_ASSEMBLIES_BY_DATE,
         payload: request
@@ -150,11 +174,14 @@ export function getAssembliesHistoryByBatchNumberAndByDate(searchField, searchVa
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
     data.method = 'query';
-    data.params.ctorMsg.function = 'getAssembliesByDate';
+    data.params.ctorMsg.function = 'getAssembliesHistoryByBatchNumberAndByDate';
     data.params.ctorMsg.args = [searchField, searchValue, fromDt_bc, toDt_bc, userstate.id];
     data.params.secureContext = userstate.secureContext;
 
+    //console.log(data);
     const request = axios.post(userstate.chainnode_url,JSON.stringify(data));
+    //console.log(request);
+    
     return{
         type:GET_ASSEMBLIES_HISTORY_BY_BATCH_NUMBER_AND_DATE,
         payload: request
@@ -164,9 +191,13 @@ export function getAssembliesHistoryByBatchNumberAndByDate(searchField, searchVa
 
 // chart
 export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
+    //console.log(fromDate);
+    //console.log(toDate);
+
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
     data.method = 'query';
+
     data.params.ctorMsg.function = 'getAssembliesHistoryByDate';
     data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
     data.params.secureContext = userstate.secureContext;
@@ -177,7 +208,7 @@ export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
         /////////////////////////////////////////////
         //console.log(res);
         var pl = (typeof res.data.result!='undefined')?JSON.parse(res.data.result.message):"[]";
-        console.log(pl);
+        //console.log(pl);
         var assemblyListDetails = pl;
         var fromDt = fromDate;
         var toDt = toDate;
@@ -185,11 +216,13 @@ export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
         var totNoOfDays = (((((diff/1000)/60)/60)/24)+1);
         var chartData = [];
 
+        //console.log('fromDate >>>> ' + fromDate.getDate());
         var dtCounter = fromDt;
         var nDtCounter = 0;
         for(var i=0;i<totNoOfDays;i++){
             nDtCounter = dateToNum(dtCounter); // parseInt(`${dtCounter.getFullYear()}${dtCounter.getMonth()+1}${dtCounter.getDate()}`);
             //console.log(nDtCounter);
+            if(toDate.getDate()<dtCounter.getDate()) break;
             var chartItem = {
                 'date' : `${dtCounter.getDate()}`
                 , 'Created' : _.filter(assemblyListDetails, (x) =>{
@@ -265,6 +298,7 @@ export function getAssemblyHistoryById(assemblyId, userstate)
 
     const request = axios.post(userstate.chainnode_url,JSON.stringify(data));
 
+    //console.log(request);
 
     return{
         type:GET_ASSEMBLY_LINE_HIST_BY_ID,
@@ -444,8 +478,9 @@ export function createAssemblyLines(formValues, userstate)
 export function updateAssemblyLines(formValues, userstate)
 {
 
-    data.method = 'invoke';
-    data.params.ctorMsg.function = 'updateAssemblyByID';
+    data.method = 'query';
+    data.params.ctorMsg.function = 'validateUpdateAssembly';
+    data.id = 0;
     data.params.ctorMsg.args = [
              formValues.assemblyId
             , formValues.deviceSerialNo
@@ -459,14 +494,33 @@ export function updateAssemblyLines(formValues, userstate)
             , formValues.stickPodBatchId
             , formValues.manufacturingPlant 
             , formValues.assemblyStatus.toString()
-            , dateToStr(formValues.assemblyDate)
+            , datetimeToStr(formValues.assemblyDate)
+            , '' //package case id
+            , formValues.assemblyInfo1 //comment1
+            , formValues.assemblyInfo2 // comment2              
             , userstate.id
             ];
 
             //console.log(JSON.stringify(data));
 
-    const request = axios.post(userstate.chainnode_url,JSON.stringify(data));
+    const request = axios.post(userstate.chainnode_url,JSON.stringify(data)).then((res)=>{
+        if(typeof res.data.error === 'undefined'){
+                data.method = 'invoke';
+                data.params.ctorMsg.function = 'updateAssemblyByID';
+                data.id = 1; 
+                console.log("1");                
+                console.log(res);
+                axios.post(userstate.chainnode_url,JSON.stringify(data)).then((res1)=>{
+                    console.log("2");
+                    console.log(res1);
+                    return res1;
+                });
+        }else{
+            return res;
+        }
+    });
  
+ /*
         var elemntAssm = {
         assemblyId : formValues.assemblyId //Date.now().toString() 
         , deviceSerialNo : formValues.deviceSerialNo
@@ -485,7 +539,7 @@ export function updateAssemblyLines(formValues, userstate)
         , assemblyCreatedBy : userstate.id
         };
         const request1 = axios.post(URL_CREATE_ASSEMBLY,elemntAssm);
-
+*/
     return{
         type:UPDATE_ASSEMBLY,
         payload: request
@@ -543,7 +597,7 @@ export function createPackageingItem(formValues, assemblies, userstate)
                     , updateAssemblies : updateAssemblies};
         const request1 = axios.post(URL_CREATE_PACKAGE,elemntPackaging);
         
-        console.log(elemntPackaging);
+        //console.log(elemntPackaging);
 
 
     return{

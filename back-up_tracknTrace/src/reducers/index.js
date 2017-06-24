@@ -7,7 +7,7 @@ import assembly_db from './reducer_AssemblyLine_db';
 
 import {reducer as formReducer} from 'redux-form';
 import packaging from './reducer_packaging';
-//import searchdt from './reducer_search';
+import search_criteria from './reducer_search';
 import packaging_db from './reducer_packaging_db';
 import userstate from './reducer_user';
 
@@ -39,7 +39,8 @@ const rootReducer = combineReducers({
   assembly: assembly,
   //assembly_db: assembly_db,    
   packaging: packaging,
-  packaging_db: packaging_db,  
+  packaging_db: packaging_db,
+  search_criteria : search_criteria,  
   form:formReducer
 });
 

@@ -14,16 +14,13 @@ export const AssemblyStatus = [
     {id:9, value:'InActive'}];
 
 export const AssemblySearchFields = [
-    {key:'assemblyId', value:'Assembly ID'},  
-    {key:'deviceSerialNo', value:'Serial Number'},    
-    {key:'deviceType', value:'Device Type'},    
-    {key:'filamentBatchId', value:'Filament Batch'},    
-    {key:'ledBatchId', value:'Led Batch'},    
-    {key:'circuitBoardBatchId', value:'Circuit Board Batch'},    
-    {key:'wireBatchId', value:'Wire Batch'},  
-    {key:'casingBatchId', value:'Casing Batch'},    
-    {key:'adaptorBatchId', value:'Adoptor Batch'},    
-    {key:'stickPodBatchId', value:'Stick Pod Batch'}]    
+    {key:'FilamentBatchId', value:'Filament Batch'},    
+    {key:'LedBatchId', value:'Led Batch'},    
+    {key:'CircuitBoardBatchId', value:'Circuit Board Batch'},    
+    {key:'WireBatchId', value:'Wire Batch'},  
+    {key:'CasingBatchId', value:'Casing Batch'},    
+    {key:'AdaptorBatchId', value:'Adaptor Batch'},    
+    {key:'StickPodBatchId', value:'Stick Pod Batch'}]    
       
 
 

@@ -164,3 +164,7 @@
     border-top: 1px solid rgb(43,128,195);
     padding: 2px;     
 }
+
+.histModal{
+    min-width: 900px !important;
+}

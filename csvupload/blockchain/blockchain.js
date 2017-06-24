@@ -33,6 +33,7 @@ exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
     let status = _.filter(blockchain_util.AssemblyStatus,_.matches({"value" : row[asm_cols.STATUS]})); 
     let obj = null;
     blockchain_data.params.secureContext = secureContext;
+    //console.log(blockchain_data.params.secureContext);
     obj = {error_code : -1, 
         assembly_code : row[asm_cols.ASSEMBLY_ID],
         assembly_status : row[asm_cols.STATUS],
@@ -74,14 +75,14 @@ exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
                 args.data = JSON.stringify(blockchain_data);
      
                 client.post(peer, args, function (data, response) {
-                    //console.log(data);
+                    //console.log(blockchain_data);
                     if(typeof data.error === 'undefined')//i.e success
                     {
                         blockchain_data.method = 'invoke';
                         blockchain_data.params.ctorMsg.function = 'createAssembly';
                         blockchain_data.id = 1;                        
                         args.data = JSON.stringify(blockchain_data);
-                        //console.log(args.data);
+                        console.log(blockchain_data);
                         client.post(peer, args, function (data, response) {
                             //console.log('within create');
                             //console.log(data);
@@ -121,7 +122,7 @@ exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
                 blockchain_data.params.ctorMsg.function = 'validateUpdateAssembly';
                 blockchain_data.id = 0;                
                 args.data = JSON.stringify(blockchain_data);
-                console.log(args.data);
+                //console.log(args.data);
                 client.post(peer, args, function (data, response) {
                       //      console.log(data);
                     if(typeof data.error === 'undefined')//i.e success
@@ -130,7 +131,7 @@ exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
                         blockchain_data.params.ctorMsg.function = 'updateAssemblyByID';
                         blockchain_data.id = 1;                        
                         args.data = JSON.stringify(blockchain_data);
-                        console.log(args.data);                        
+                        console.log(blockchain_data);                        
                         client.post(peer, args, function (data, response) {
                         //    console.log(data);
                             if(typeof data.error === 'undefined')

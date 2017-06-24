@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 const blockchain = require('./blockchain/blockchain');
 const _ = require('lodash');
 const logdb = require('./cloudant/log');
-const INTERVAL = 5000;
+const INTERVAL = 6000;
 
 
 //following is to work with file stream
@@ -57,7 +57,8 @@ app.post('/api/upload', function(req, res){
 
     var role = req.headers.role;
     if(role === 'Assembly'){
-        callAssemblyLine(upload_file_name, req.headers.uid, req.headers.node_url, req.headers.secureContext, req, res);        
+        //console.log(req.headers);
+        callAssemblyLine(upload_file_name, req.headers.uid, req.headers.node_url, req.headers.securecontext, req, res);        
     }
 });
 

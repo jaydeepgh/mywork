@@ -50,6 +50,7 @@ class UserLogin extends Component{
                id = user.id;
                chainnode = user.chainnode;
                secureContext = user.secureContext;
+               //console.log(user.secureContext);
            } 
         })
         if(validuser){

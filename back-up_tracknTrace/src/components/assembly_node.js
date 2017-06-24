@@ -8,7 +8,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 export default class AssemblyNode extends Component{
     constructor(props){
         super(props);
-        this.state = {fnodes:null, tnodes:null, nodedetailstyle:{
+        this.state = {blocks:null, fnodes:null, tnodes:null, nodedetailstyle:{
             top:'0px'
             , left:'0px'
             , display : 'none'
@@ -39,11 +39,12 @@ export default class AssemblyNode extends Component{
         let curNode = this[0];
         const domNode = ReactDOM.findDOMNode(curNode);
         let clientRect = domNode.getBoundingClientRect();
-        let item = this.props.hist[index];
-
+        let item = this.state.blocks[index];
+        let constPix = ((screen.width - 900) / 2);
+        //console.log(screen.width);
         this.setState({
             nodedetailstyle : {top : ((clientRect.top + clientRect.height)-(clientRect.top - (clientRect.top - 100))).toString() + 'px'
-                            ,left : (((clientRect.left + 45) + ((clientRect.width + 20) * index))-250).toString() + 'px'
+                            ,left : (((clientRect.left + 45) + ((clientRect.width + 20) * index)) - constPix).toString() + 'px'
                             , display : (this.state.nodedetailstyle.display=='none' || (this.state.nodedata.assemblyStatus != item.assemblyStatus))?'block':'none'
                 },
                 nodedata : {
@@ -71,6 +72,7 @@ export default class AssemblyNode extends Component{
     }
 
     componentDidMount(){
+        this.setState({blocks:this.props.hist});
         let count = this.props.hist.length;
         let histItem = -1;
         if(count>0){

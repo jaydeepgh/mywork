@@ -24,7 +24,12 @@ import LinearProgress from 'material-ui/LinearProgress';
 
 import {GridList, GridTile} from 'material-ui/GridList';
 import {formatedDate, formatedDateTimeFromNum} from '../../dateutil';
-import {uploadAssemblyFile, getAllAssemblyLines, BACKEND_APP_URL} from '../../actions/index';
+import {getAllAssemblyLines
+    , clearSearchCriteria
+    , BACKEND_APP_URL
+    , getAssembliesHistoryByDate
+    , getAssembliesByDate
+    , getAssembliesHistoryByBatchNumberAndByDate} from '../../actions/index';
 
 import axios, { post } from 'axios';
 
@@ -51,9 +56,6 @@ class AssemblyLineListDB extends Component
         this.progressOpen = this.progressOpen.bind(this);
         this.progressClose = this.progressClose.bind(this);
     }
-
-
-
     
   progressOpen(){
     this.setState({progressopen: true});
@@ -75,8 +77,24 @@ class AssemblyLineListDB extends Component
       setTimeout(()=>{
           this.progressClose();
           //this.setState({file:null});
-          this.props.getAllAssemblyLines(this.props.userstate);
-      } ,(res.noofrecord *5000))
+          //this.props.getAllAssemblyLines(this.props.userstate);
+            this.props.clearSearchCriteria();
+            if(this.props.search_criteria.SearchCriteria != '' && this.props.search_criteria.SearchValue != ''){
+                this.props.getAssembliesHistoryByDate(this.props.search_criteria.SearchFromDate
+                , this.props.search_criteria.SearchToDate, this.props.userstate); 
+                this.props.getAssembliesHistoryByBatchNumberAndByDate(this.props.search_criteria.SearchCriteria
+                        , this.props.search_criteria.SearchValue
+                        , this.props.search_criteria.SearchFromDate
+                        , this.props.search_criteria.SearchToDate
+                        , this.props.userstate);              
+            }else{
+                this.props.getAssembliesHistoryByDate(this.props.search_criteria.SearchFromDate
+                , this.props.search_criteria.SearchToDate, this.props.userstate);                                
+                this.props.getAssembliesByDate(this.props.search_criteria.SearchFromDate
+                        , this.props.search_criteria.SearchToDate
+                        , this.props.userstate);
+            }          
+      } ,(res.noofrecord *6000))
     })
   }
   onChange(e) {
@@ -99,13 +117,21 @@ class AssemblyLineListDB extends Component
     return  post(url,formData,config);
   }
 
+/*    
   componentWillMount(){
     this.props.getAllAssemblyLines(this.props.userstate);
   }
-
+*/
     render(){
-        const {uploadAssemblyFile, getAllAssemblyLines} = this.props;
+        const {getAllAssemblyLines, clearSearchCriteria
+        , getAssembliesByDate
+        , getAssembliesHistoryByBatchNumberAndByDate
+        , getAssembliesHistoryByDate
+       } = this.props;
             let assemblydata = '';
+
+            //console.log(this.props.assemblylist.length);
+            
             if(this.props.assemblylist.length > 0){
                 assemblydata = this.props.assemblylist.map((row) =>{
                         return (
@@ -118,6 +144,7 @@ class AssemblyLineListDB extends Component
                                 <GridTile><div><span>Manufacturing Plant : </span> {row.manufacturingPlant}</div></GridTile>
                                 <GridTile><div><span>Last Updated : </span> {formatedDateTimeFromNum(row.assemblyDate)}</div></GridTile>
                                 <GridTile><div><span>Status : </span> {_.filter(AssemblyStatus, _.matches( {'id' : parseInt(row.assemblyStatus)}))[0].value}</div></GridTile>
+                                <GridTile>Edit : <Link to={`/Assembly/${row.assemblyId}`}><img className="edit_image" src="../../../img/edit1.png" /></Link></GridTile>                                
                                 <GridTile><AssemblyHistory assemblyId={row.assemblyId} type={row.deviceType} /></GridTile>                                
                                 </GridList>
                             </Panel>
@@ -196,10 +223,15 @@ AssemblyLineListDB =  reduxForm({
 AssemblyLineListDB = connect(   state => (
     {//assemblylist : state.assembly_db.assemblylist,
     assemblylist : state.assembly.assemblylist,
+    search_criteria : state.search_criteria,
         userstate : state.userstate
   })
 ,
-  {uploadAssemblyFile, getAllAssemblyLines}               
+  {getAllAssemblyLines, clearSearchCriteria
+        , getAssembliesByDate
+        , getAssembliesHistoryByBatchNumberAndByDate 
+        , getAssembliesHistoryByDate 
+  }               
 )(AssemblyLineListDB);
 
 export default AssemblyLineListDB;

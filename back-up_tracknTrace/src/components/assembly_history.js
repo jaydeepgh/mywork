@@ -30,7 +30,7 @@ class AssemblyHistory extends Component{
 
     componentDidMount(){
         
-        this.props.getAssemblyHistoryById(this.props.assemblyId,this.props.userstate).then(()=>{
+        this.props.getAssemblyHistoryById(this.props.assemblyId,this.props.userstate).then(()=>{            
             this.setState({nodes:<AssemblyNode hist={this.props.assemblyHistory} />});
         });
     }
@@ -42,7 +42,7 @@ class AssemblyHistory extends Component{
                 return(
                     <div>
                         <div><span>History : </span> <Link onClick={this.open}><img className="edit_image" src="../../img/detail.png" /></Link> </div>
-                        <Modal show={this.state.showModal} onHide={this.close} bsSize="large">
+                        <Modal show={this.state.showModal} onHide={this.close} bsSize="large" className="histModal">
                         <Modal.Header closeButton>
                             <Modal.Title>Assembly Details</Modal.Title>
                         </Modal.Header>
