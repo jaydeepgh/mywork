@@ -162,8 +162,8 @@ class SearchPane extends Component{
                             <div id="top-button-panel" className="row">
                                 <div className="col-md-12 text-right">
                                     <ButtonToolbar>
-                                        <Button type="reset" bsStyle="danger" onClick={this.clearSearchCriteria.bind(this)}>Clear Search Criteria</Button> 
                                         <Button type="submit" bsStyle="primary">Search</Button>
+                                        <Button type="reset" bsStyle="danger" onClick={this.clearSearchCriteria.bind(this)}>Clear</Button>                                    
                                     </ButtonToolbar>
                                 </div>                            
                             </div> 

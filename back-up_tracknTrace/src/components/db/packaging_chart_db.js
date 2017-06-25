@@ -11,19 +11,19 @@ class PackagingChart extends Component{
             if(typeof this.props.packagingChartData!= 'undefined' && this.props.packagingChartData.length > 0){
 
                   return (
-                      <div className="chartPan">
-                <BarChart width={600} height={300} data={this.props.packagingChartData}
-                margin={{top: 15, right: 20, left: 0, bottom: 5}}>
-                  <Legend verticalAlign="top" />
-                  <XAxis dataKey="date"/>
-                  <YAxis interval={0} allowDecimals={false} />
-                  <CartesianGrid strokeDasharray="1 1"/>
-                  <Tooltip/>                  
-                  <Bar dataKey="Packaging Complete" fill="#8884d8" />
-                  <Bar dataKey="Shipped" fill="#82c444" />           
-                  <Bar dataKey="Cancelled" fill="#ff1060" />       
-                  </BarChart>
-                  </div>
+                    <div className="chartPan">
+                        <BarChart width={600} height={300} data={this.props.packagingChartData}
+                        margin={{top: 15, right: 20, left: 0, bottom: 5}}>
+                            <Legend verticalAlign="top" />
+                            <XAxis dataKey="date"/>
+                            <YAxis interval={0} allowDecimals={false} />
+                            <CartesianGrid strokeDasharray="1 1"/>
+                            <Tooltip/>                  
+                            <Bar dataKey="Packaging Complete" stackId = "a" fill="#8884d8" />
+                            <Bar dataKey="Shipped" stackId = "a" fill="#82c444" />           
+                            <Bar dataKey="Cancelled" stackId = "a" fill="#ff1060" />       
+                        </BarChart>
+                    </div>
                   );
 
             }else{
@@ -35,7 +35,7 @@ class PackagingChart extends Component{
 } 
 
 function mapStateToProps(state){
-    return {packagingChartData : state.packaging_db.packagingChartData};
+    return {packagingChartData : state.packaging.packagingChartData};
 }
 
 

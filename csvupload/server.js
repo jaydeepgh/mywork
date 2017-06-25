@@ -87,8 +87,8 @@ const callAssemblyLine = (filename, uid, node_url, secureContext, req, res) =>{
                             chain_err.push({ 
                                 rowid: rowCount
                                 , errorcode : chain_res.error_code                                
-                                , assemblycode : chain_res.assembly_code
-                                , assemblystatus : chain_res.assembly_status                                
+                                , code : chain_res.assembly_code
+                                , status : chain_res.assembly_status                                
                                 , message : chain_res.message
                             });
                         }    
@@ -117,7 +117,57 @@ const callAssemblyLine = (filename, uid, node_url, secureContext, req, res) =>{
     });
 };
 
+const callPackagingLine = (filename, uid, node_url, secureContext, req, res) =>{
+    let rdata = []; 
+    let myFile = fs.createReadStream(`./uploads/${filename}`);
+    myFile.pipe(csv())
+    .on("data", function(data){
+        rdata.push(data);
+    })
+    .on("end", function(){
+        //console.log('data count >>>>' + rdata.length);
+        let offset = 0;
+        let rowCount = 1;
+        let chain_err = [];
+        let timestamp = Date.now();
+        if(rdata.length>0){
+            _(rdata).each((item) => {                
+                setTimeout(() => {
+                    blockchain.PackagingLineInvoke(item,uid,node_url, secureContext, (chain_res) =>{
+                        //console.log(chain_res);
+                        if(typeof chain_res != 'undefined'){
+                            chain_err.push({ 
+                                rowid: rowCount
+                                , errorcode : chain_res.error_code                                
+                                , code : chain_res.packaging_code
+                                , status : chain_res.packaging_status                                
+                                , message : chain_res.message
+                            });
+                        }    
+                        rowCount++;                                            
+                    });
+                    
 
+                },(0+offset));
+                offset += INTERVAL;
+            });
+            //time to log into database
+            setTimeout(()=>{
+                logdb.saveLog(null, filename, timestamp, chain_err, (msg) =>{
+                    console.log(msg);
+                });
+                
+            },(rdata.length*INTERVAL));
+        }
+        
+        fs.unlink(`./uploads/${filename}`);
+        res.ContentType = "application/json"
+        res.write(`{"noofrecord" : ${rdata.length.toString()}, "timestamp":${timestamp}}`);
+        
+        
+        res.end();
+    });
+};
 
 
 //serve static file (index.html, images, css)

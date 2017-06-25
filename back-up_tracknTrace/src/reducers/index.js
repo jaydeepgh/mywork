@@ -39,7 +39,7 @@ const rootReducer = combineReducers({
   assembly: assembly,
   //assembly_db: assembly_db,    
   packaging: packaging,
-  packaging_db: packaging_db,
+  //packaging_db: packaging_db,
   search_criteria : search_criteria,  
   form:formReducer
 });

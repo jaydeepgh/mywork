@@ -12,14 +12,14 @@ exports.AssemblyStatus = [
 
 
 exports.PackageStatus = [
-        {id:0, value:'New'},
+    {id:0, value:'New'},
     {id:1, value:'Packaging Complete'},
     {id:2, value:'Shipped'},
     {id:3, value:'Cancelled'}        
     ];
 
 exports.GetActualError = (err) =>{
-    let startIndex = (err.lastIndexOf(":") + 2);
+    let startIndex = (err.lastIndexOf(":") + 1);
     return err.substring(startIndex);
 }
 
@@ -40,6 +40,16 @@ exports.AssemblyCols = {
     PACKAGE_CASE : 13,
     COMMENT1 : 14,
     COMMENT2 : 15 
+}
+
+exports.PackageCols = {
+    CASE_ID : 0,
+    HOLDER_ASSEMBLY_ID : 1,
+    CHARGER_ASSEMBLY_ID : 2,
+    PACKAGE_STATUS : 3,
+    PACKAGING_DATE : 4,
+    SHIPPING_TO_ADDRESS : 5
+//    PACKAGE_CREATED_BY 
 }
 
 
