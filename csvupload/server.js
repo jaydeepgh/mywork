@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 const blockchain = require('./blockchain/blockchain');
 const _ = require('lodash');
 const logdb = require('./cloudant/log');
-const INTERVAL = 6000;
+const INTERVAL = 10000;
 
 
 //following is to work with file stream
@@ -54,70 +54,11 @@ app.use(upload.any());
 // Upload post request
 //
 app.post('/api/upload', function(req, res){
-
     var role = req.headers.role;
-    if(role === 'Assembly'){
-        //console.log(req.headers);
-        callAssemblyLine(upload_file_name, req.headers.uid, req.headers.node_url, req.headers.securecontext, req, res);        
-    }
+    callBlockChainInvoke(upload_file_name, req.headers.uid, req.headers.node_url, req.headers.securecontext, role, req, res);        
 });
 
-
-
-
-const callAssemblyLine = (filename, uid, node_url, secureContext, req, res) =>{
-    let rdata = []; 
-    let myFile = fs.createReadStream(`./uploads/${filename}`);
-    myFile.pipe(csv())
-    .on("data", function(data){
-        rdata.push(data);
-    })
-    .on("end", function(){
-        console.log('data count >>>>' + rdata.length);
-        let offset = 0;
-        let rowCount = 1;
-        let chain_err = [];
-        let timestamp = Date.now();
-        if(rdata.length>0){
-            _(rdata).each((item) => {                
-                setTimeout(() => {
-                    blockchain.AssemblyLineInvoke(item,uid,node_url, secureContext, (chain_res) =>{
-                        //console.log(chain_res);
-                        if(typeof chain_res != 'undefined'){
-                            chain_err.push({ 
-                                rowid: rowCount
-                                , errorcode : chain_res.error_code                                
-                                , code : chain_res.assembly_code
-                                , status : chain_res.assembly_status                                
-                                , message : chain_res.message
-                            });
-                        }    
-                        rowCount++;                                            
-                    });
-                    
-
-                },(0+offset));
-                offset += INTERVAL;
-            });
-            //time to log into database
-            setTimeout(()=>{
-                logdb.saveLog(null, filename, timestamp, chain_err, (msg) =>{
-                    console.log(msg);
-                });
-                
-            },(rdata.length*INTERVAL));
-        }
-        
-        fs.unlink(`./uploads/${filename}`);
-        res.ContentType = "application/json"
-        res.write(`{"noofrecord" : ${rdata.length.toString()}, "timestamp":${timestamp}}`);
-        
-        
-        res.end();
-    });
-};
-
-const callPackagingLine = (filename, uid, node_url, secureContext, req, res) =>{
+const callBlockChainInvoke = (filename, uid, node_url, secureContext, role, req, res) =>{
     let rdata = []; 
     let myFile = fs.createReadStream(`./uploads/${filename}`);
     myFile.pipe(csv())
@@ -133,21 +74,35 @@ const callPackagingLine = (filename, uid, node_url, secureContext, req, res) =>{
         if(rdata.length>0){
             _(rdata).each((item) => {                
                 setTimeout(() => {
-                    blockchain.PackagingLineInvoke(item,uid,node_url, secureContext, (chain_res) =>{
-                        //console.log(chain_res);
-                        if(typeof chain_res != 'undefined'){
-                            chain_err.push({ 
-                                rowid: rowCount
-                                , errorcode : chain_res.error_code                                
-                                , code : chain_res.packaging_code
-                                , status : chain_res.packaging_status                                
-                                , message : chain_res.message
-                            });
-                        }    
-                        rowCount++;                                            
-                    });
-                    
-
+                    if(role === 'Assembly'){
+                        blockchain.AssemblyLineInvoke(item,uid,node_url, secureContext, (chain_res) =>{
+                            if(typeof chain_res != 'undefined'){
+                                chain_err.push({ 
+                                    rowid: rowCount
+                                    , errorcode : chain_res.error_code                                
+                                    , code : chain_res.assembly_code
+                                    , status : chain_res.assembly_status                                
+                                    , message : chain_res.message
+                                });
+                            }    
+                            rowCount++;                                            
+                        });
+                    }else{
+                        console.log('User\'s role >>>>>>>>>>>>' +role);
+                        blockchain.PackagingLineInvoke(item,uid,node_url, secureContext, (chain_res) =>{
+                            //console.log(chain_res);
+                            if(typeof chain_res != 'undefined'){
+                                chain_err.push({ 
+                                    rowid: rowCount
+                                    , errorcode : chain_res.error_code                                
+                                    , code : chain_res.packaging_code
+                                    , status : chain_res.packaging_status                                
+                                    , message : chain_res.message
+                                });
+                            }    
+                            rowCount++;                                            
+                        });                        
+                    }
                 },(0+offset));
                 offset += INTERVAL;
             });
@@ -158,16 +113,15 @@ const callPackagingLine = (filename, uid, node_url, secureContext, req, res) =>{
                 });
                 
             },(rdata.length*INTERVAL));
-        }
-        
+        }        
         fs.unlink(`./uploads/${filename}`);
         res.ContentType = "application/json"
-        res.write(`{"noofrecord" : ${rdata.length.toString()}, "timestamp":${timestamp}}`);
-        
-        
+        res.write(`{"noofrecord" : ${rdata.length.toString()}, "timestamp":${timestamp}}`);                
         res.end();
     });
 };
+
+
 
 
 //serve static file (index.html, images, css)

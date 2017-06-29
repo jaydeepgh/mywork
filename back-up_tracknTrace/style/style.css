@@ -17,14 +17,15 @@
 .searchPan{
         border: 1px solid #cccccc;
         float:left;
-        height: 300px;
+        min-height: 300px !important;
          width: 45%;
   vertical-align: middle; 
   padding:15px;
   padding-top:25px;        
-  overflow: hidden;
-  
+  overflow: hidden;  
 }
+
+
 .edit_image{
   width: 20px;
   height: 20px;
@@ -167,4 +168,8 @@
 
 .histModal{
     min-width: 900px !important;
+}
+
+#qa3 > div{
+    height: auto !important;
 }

@@ -19,7 +19,7 @@ class PackagingChart extends Component{
                             <YAxis interval={0} allowDecimals={false} />
                             <CartesianGrid strokeDasharray="1 1"/>
                             <Tooltip/>                  
-                            <Bar dataKey="Packaging Complete" stackId = "a" fill="#8884d8" />
+                            <Bar dataKey="Packaged" stackId = "a" fill="#8884d8" />
                             <Bar dataKey="Shipped" stackId = "a" fill="#82c444" />           
                             <Bar dataKey="Cancelled" stackId = "a" fill="#ff1060" />       
                         </BarChart>

@@ -27,7 +27,7 @@ class AssemblyLineDB extends Component
         return(
              <MuiThemeProvider>
                 <div>
-                    <h1 className="ModuleCaption">Assembly Line</h1>
+                    {(this.props.userstate.role === 'Quality') ? '' :<h1 className="ModuleCaption">Track and Trace - Assembly Line</h1>}                    
                     <Panel>
                     <div>
                         <AssemblyLineChart />
@@ -44,4 +44,6 @@ class AssemblyLineDB extends Component
 
 }
 
-export default AssemblyLineDB;
+export default connect(state => ({
+          userstate : state.userstate
+}))(AssemblyLineDB);

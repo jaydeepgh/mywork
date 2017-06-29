@@ -23,26 +23,18 @@ export const AssemblySearchFields = [
     {key:'StickPodBatchId', value:'Stick Pod Batch'}]    
       
 
-
-
-
-
-
-
 export const PackageStatus = [
-        {id:0, value:'New'},
+    {id:0, value:'New'},
     {id:1, value:'Packaging Complete'},
     {id:2, value:'Shipped'},
     {id:3, value:'Cancelled'}        
     ];
 
-
-
-
-
 export const UserInfo = [
     {id:'aluser1', passcode:'abcd1234', role:'Assembly', chainnode:0, secureContext : 'user_type1_0'},
-    {id:'aluser2', passcode:'abcd1234', role:'Assembly', chainnode:0, secureContext : 'user_type1_0'},    
-    {id:'pluser1', passcode:'abcd1234', role:'Packaging', chainnode:1, secureContext : 'user_type1_0'},
-    {id:'pluser2', passcode:'abcd1234', role:'Packaging', chainnode:1, secureContext : 'user_type2_1'}
+    {id:'aluser2', passcode:'abcd1234', role:'Assembly', chainnode:0, secureContext : 'user_type1_1'},    
+    {id:'pluser1', passcode:'abcd1234', role:'Packaging', chainnode:1, secureContext : 'user_type2_0'},
+    {id:'pluser2', passcode:'abcd1234', role:'Packaging', chainnode:1, secureContext : 'user_type2_1'},
+    {id:'qauser1', passcode:'abcd1234', role:'Quality', chainnode:2, secureContext : 'user_type2_3'},
+    {id:'qauser2', passcode:'abcd1234', role:'Quality', chainnode:2, secureContext : 'user_type2_4'}            
     ]        

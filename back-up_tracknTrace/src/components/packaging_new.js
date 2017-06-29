@@ -57,32 +57,18 @@ class NewPackaging extends Component
         
         //console.log(this.props.userstate);
         if(this.props.params.id=='0'){
-            this.props.getAllAssemblyLines(this.props.userstate)
-            .then(()=>{
-                this.props.getPackageById('0', this.props.userstate);
-                this.setState({loaded:true});
-            });
+            this.props.getPackageById('0', this.props.userstate);
+            this.setState({loaded:true});
         }
         else{
-            this.props.getAllAssemblyLines(this.props.userstate)
-            .then(()=>{
-                this.props.getPackageById(this.props.params.id, this.props.userstate);
-                this.setState({loaded:true});
-            });
+            this.props.getPackageById(this.props.params.id, this.props.userstate);
+            this.setState({loaded:true});
         }
     }
 
 
 
     onSubmit(values){
-            var assemblies = [];
-            if(values.chargerAssemblyId!=''){
-                assemblies.push(_.filter(this.props.assemblylist,(item)=>{return item.assemblyId == values.chargerAssemblyId})[0]);
-            }
-            if(values.holderAssemblyId!=''){
-                assemblies.push(_.filter(this.props.assemblylist,(item)=>{return item.assemblyId == values.holderAssemblyId})[0]);
-            }      
-        //console.log(assemblies);  
             if(this.props.params.id=='0'){
                 this.props.createPackageingItem(values, assemblies, this.props.userstate)
                 .then(()=>{
@@ -102,21 +88,21 @@ class NewPackaging extends Component
 
     getControls(fieldConfig, key)
     {
-        let collection = null;
+        let collection = [];
         let onChangeFunc = null;
         switch(fieldConfig.label){
             case 'Holder Assembly ID':
             //var holder = _.filter(this.props.assemblylist,(item)=>{return item.deviceType == 'Holder'});
                 //console.log(holder);
-                collection = _.filter(this.props.assemblylist,(item)=>{return item.deviceType == 'Holder' && item.assemblyStatus == '6'});
+                //collection = _.filter(this.props.assemblylist,(item)=>{return item.deviceType == 'Holder' && item.assemblyStatus == '6'});
                 onChangeFunc = (value) =>{console.log('holder function');}
                 break;   
             case 'Charger Assembly ID':
-                collection = _.filter(this.props.assemblylist,(item)=>{return item.deviceType == 'Charger' && item.assemblyStatus == '6'});;
+                //collection = _.filter(this.props.assemblylist,(item)=>{return item.deviceType == 'Charger' && item.assemblyStatus == '6'});
                 onChangeFunc = (value) =>{console.log('charger function');}
                 break;   
             case 'Packaging Status' :
-                collection = (this.props.params.id==='0')?PackageStatus:_.filter(PackageStatus,(x)=>{return x.id !=0});;
+                collection = (this.props.params.id==='0')?PackageStatus:_.filter(PackageStatus,(x)=>{return x.id !=0});
                 onChangeFunc = (value) =>{console.log('status');}
                 break;
             default:
@@ -136,9 +122,7 @@ class NewPackaging extends Component
         const {handleSubmit,getPackageById, getAllAssemblyLines, createPackageingItem, updatePackagingLine} = this.props; 
         
         const id = this.props.params.id;
-        //console.log(this.props.assemblylist);
-if(!this.props.assemblylist) return <div>Loading...</div>
-else
+
         return(
             <MuiThemeProvider>
                 <div>
@@ -150,17 +134,7 @@ else
                             <div>
                                 <GridList cols={3} cellHeight={65}>
                                 {_.keys(FIELDS_PACKAGING).map((key)=>{
-                                    let field = _.at(FIELDS_PACKAGING,key)[0];
-                                       
-/*                                    if(id==='0'){
-                                        switch(key){
-                                            case 'assemblyStatus':
-                                                field.disabled = true;
-                                                break;
-                                         }
-                                    }*/
-
-                                        if(id!='0'){
+                                    let field = _.at(FIELDS_PACKAGING,key)[0];                                       
                                             switch(key){
                                                 case 'holderAssemblyId':
                                                 case 'chargerAssemblyId':
@@ -170,21 +144,7 @@ else
                                                 case 'packageStatus':
                                                     field.disabled = false;
                                                     break;
-                                                      
-                                            }
-                                         }else{
-                                            switch(key){
-                                                case 'holderAssemblyId':
-                                                case 'chargerAssemblyId':
-                                                    field.disabled = false;
-                                                    field.type = 'select';
-                                                    break;
-                                                case 'packageStatus':
-                                                    field.disabled = true;
-                                                    break;                                                    
-                                            }
-
-                                         }                                    
+                                                    }
                                         return <GridTile key={key}>
                                             <div>                                            
                                                 {this.getControls(field,key)}
@@ -214,8 +174,8 @@ NewPackaging =  reduxForm({
 
 NewPackaging = connect(
    state => ({
-    assemblylist : state.assembly.assemblylist,   
-    packaginglist : state.packaging.packaginglist,
+    //assemblylist : state.assembly.assemblylist,   
+    //packaginglist : state.packaging.packaginglist,
     initialValues : state.packaging.currentpackaging,
     userstate : state.userstate
   }),

@@ -5,8 +5,8 @@ import {strToDate,dateToStr,dateToNum,datetimeToStr} from '../dateutil';
 //BLOCKCHAIN CONSTANTS
 //_chain_node_peer_
 //const CHAIN_URL = 'https://73efed29720e41d79593d61a837a1f47-vp_chain_node_peer_.us.blockchain.ibm.com:5004/chaincode';
-const CHAIN_CODE_ID = '3f2edbdebae67f34e73409f8c53e46d990b390e6926ddfdc9e548039fa9c68510bd5a79988a3ba1141db2962306ae0c9dd2a0016544ce12a2a898474de073dc8';
-export const BACKEND_APP_URL = 'http://localhost:5000';
+const CHAIN_CODE_ID = '4d5426962528559b22934d394edccc4b07242143f125f0bc0f0b357617bc75a11ea03afabac03e36c3e0176848610be6dd7225287ae54caeeb978e3195b3ebb4';
+export const BACKEND_APP_URL = 'https://tracktracebackend-disembodied-publican.mybluemix.net';//'http://localhost:5000';
 
 
 
@@ -55,7 +55,7 @@ export const SEARCH_CRITERIA_CHANGE = 'SEARCH_CRITERIA_CHANGE';
 export const SEARCH_CRITERIA_RESET = 'SEARCH_CRITERIA_RESET';
 
 
-export let data = {
+export const data_template = {
         jsonrpc: "2.0",
         method: '',
         params: {
@@ -119,7 +119,8 @@ export function clearSearchCriteria(){
 }
 //User state setup
 export function setUserState(id, role, chainnode, secureContext){
-    var node_url =  `https://26014aa836234dc58cd1a23588e0db8d-vp${chainnode.toString()}.us.blockchain.ibm.com:5002/chaincode`;
+    var node_url =  `https://f46354c615654d5fbf7da6379c568c67-vp${chainnode.toString()}.us.blockchain.ibm.com:5002/chaincode`; 
+    //`https://26014aa836234dc58cd1a23588e0db8d-vp${chainnode.toString()}.us.blockchain.ibm.com:5002/chaincode`;
     // `https://6de494b1c04d48049b642bba6f9fbdc1-vp${chainnode.toString()}.us.blockchain.ibm.com:5004/chaincode`;
     var userState = {id:id, role:role, node_url:node_url, secureContext: secureContext};
     return{
@@ -168,8 +169,11 @@ export function getAllAssemblyLinesByStatus(status)
 
 //landing default
 export function getAssembliesByDate(fromDate,toDate, userstate){
+
+
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
+    let data = data_template;
     data.method = 'query';
     data.params.ctorMsg.function = 'getAssembliesByDate';
     data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
@@ -187,6 +191,7 @@ export function getAssembliesByDate(fromDate,toDate, userstate){
 export function getAssembliesHistoryByBatchNumberAndByDate(searchField, searchValue, fromDate,toDate, userstate){
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
+    let data = data_template;    
     data.method = 'query';
     data.params.ctorMsg.function = 'getAssembliesHistoryByBatchNumberAndByDate';
     data.params.ctorMsg.args = [searchField, searchValue, fromDt_bc, toDt_bc, userstate.id];
@@ -208,8 +213,8 @@ export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
 
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
+    let data = data_template;    
     data.method = 'query';
-
     data.params.ctorMsg.function = 'getAssembliesHistoryByDate';
     data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
     data.params.secureContext = userstate.secureContext;
@@ -284,6 +289,8 @@ export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
 }
 //this is for history
 export function getAssemblyHistoryById(assemblyId, userstate){
+    let data = data_template;
+    data.params.secureContext = userstate.secureContext;    
     data.method = 'query';
     data.params.ctorMsg.function = 'getAssemblyLineHistoryByID';
     data.params.ctorMsg.args = [assemblyId, userstate.id];
@@ -298,11 +305,14 @@ export function getAssemblyHistoryById(assemblyId, userstate){
     }
 }
 export function getAssemblyLinesById(id, userstate){
-    //console.log(id);
+
+    let data = data_template;
+    data.params.secureContext = userstate.secureContext;    
     data.method = 'query';
     data.params.ctorMsg.function = 'getAssemblyByID';
-    data.params.ctorMsg.args = [id];
-    //console.log(data);
+    data.params.ctorMsg.args = [id, userstate.id];
+
+    //console.log('reached edit >>>>>> ' + id);
 
     let request = null;
     
@@ -341,6 +351,7 @@ export function getAssemblyLinesById(id, userstate){
     }
 }
 export function getAllAssemblyLines(userstate){
+    let data = data_template;   
     data.method = 'query';
     data.params.ctorMsg.function = 'getAllAssemblies';
     data.params.ctorMsg.args = [userstate.id];
@@ -355,7 +366,7 @@ export function getAllAssemblyLines(userstate){
     }
 }
 export function getAllPackagingItems() {
-
+    let data = data_template;
     data.method = 'query';
     data.params.ctorMsg.function = 'getAllPackages';
     data.params.ctorMsg.args = [];
@@ -370,6 +381,7 @@ export function getAllPackagingItems() {
     }
 }
 export function getPackageById(id, userstate){
+    let data = data_template;    
     data.method = 'query';
     data.params.ctorMsg.function = 'getPackageByID';
     data.params.ctorMsg.args = [id, userstate.id];
@@ -399,6 +411,7 @@ export function getPackageById(id, userstate){
 export function getPackagesByDate(fromDate,toDate, userstate){
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
+    let data = data_template;    
     data.method = 'query';
     data.params.ctorMsg.function = 'getPackagesByDate';
     data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
@@ -417,6 +430,7 @@ export function getPackageByAssemblyIdAndByDate(searchField, searchValue, fromDa
 
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
+    let data = data_template;    
     data.method = 'query';
     data.params.ctorMsg.function = 'getPackageByAssemblyIdAndByDate';
     data.params.ctorMsg.args = [searchField, searchValue, fromDt_bc, toDt_bc, userstate.id];
@@ -433,8 +447,8 @@ export function getPackagesHistoryByDate(fromDate,toDate, userstate){
 
     let fromDt_bc = `${dateToNum(fromDate).toString()}000000`;
     let toDt_bc = `${dateToNum(toDate).toString()}235959`;
+    let data = data_template;
     data.method = 'query';
-
     data.params.ctorMsg.function = 'getPackagesHistoryByDate';
     data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
     data.params.secureContext = userstate.secureContext;
@@ -451,7 +465,7 @@ export function getPackagesHistoryByDate(fromDate,toDate, userstate){
         var diff = new Date(toDt.getTime() - fromDt.getTime());
         var totNoOfDays = (((((diff/1000)/60)/60)/24)+1);
         var chartData = [];
-
+        //console.log(pl);
         //console.log('fromDate >>>> ' + fromDate.getDate());
         var dtCounter = fromDt;
         var nDtCounter = 0;
@@ -462,7 +476,12 @@ export function getPackagesHistoryByDate(fromDate,toDate, userstate){
             var chartItem = {
                 'date' : `${dtCounter.getDate()}`
                 , 'Packaged' : _.filter(pl, (x) =>{
-                        if(x.packagingDate.toString().substring(0,8) == nDtCounter.toString() && x.packageStatus == '1' ) return x;
+                        //console.log(x.packagingDate.toString().substring(0,8));
+                        //console.log(nDtCounter.toString());
+                        //console.log(x.packageStatus);
+                        if(x.packagingDate.toString().substring(0,8) == nDtCounter.toString() && x.packageStatus == '1' ){
+                            console.log('here');
+                                return x};
                     }).length
                 , 'Shipped' : _.filter(pl, (x) =>{
                         if(x.packagingDate.toString().substring(0,8) == nDtCounter.toString() && x.packageStatus == '2' ) return x;
@@ -485,6 +504,8 @@ export function getPackagesHistoryByDate(fromDate,toDate, userstate){
     }
 }
 export function getPackageLineHistoryByID(caseId, userstate){
+    let data = data_template;
+    data.params.secureContext = userstate.secureContext;    
     data.method = 'query';
     data.params.ctorMsg.function = 'getPackageLineHistoryByID';
     data.params.ctorMsg.args = [caseId, userstate.id];
@@ -551,7 +572,8 @@ export function createAssemblyLines(formValues, userstate){
     }
 }
 export function updateAssemblyLines(formValues, userstate){
-
+    let data = data_template;
+    data.params.secureContext = userstate.secureContext;
     data.method = 'query';
     data.params.ctorMsg.function = 'validateUpdateAssembly';
     data.id = 0;
@@ -621,7 +643,8 @@ export function updateAssemblyLines(formValues, userstate){
 }
 export function createPackageingItem(formValues, assemblies, userstate){
 
-
+    let data = data_template;
+    data.params.secureContext = userstate.secureContext;
     data.method = 'invoke';
     data.params.ctorMsg.function = 'createPackage';
     data.params.ctorMsg.args = [
@@ -678,7 +701,8 @@ export function createPackageingItem(formValues, assemblies, userstate){
 }
 export function updatePackagingLine(formValues, assemblies, userstate){
 
-
+    let data = data_template;
+    data.params.secureContext = userstate.secureContext;
     data.method = 'invoke';
     data.params.ctorMsg.function = 'updatePackage';
     data.params.ctorMsg.args = [

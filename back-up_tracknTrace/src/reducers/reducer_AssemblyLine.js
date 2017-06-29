@@ -55,13 +55,14 @@ export default function(state=INITIAL_STATE, action)
             break;            
         case GET_ASSEMBLY_BY_ID:
             var payload = null;
-            if(!action.payload.data.result){
-                
+            if(!action.payload.data.result){                
                 payload = action.payload.data;
                 return Object.assign({},state,{currentAssembly:payload,devicetype: payload.deviceType});
             } 
             else{
                 payload = (typeof action.payload.data.result!='undefined')?action.payload.data.result.message:"{}";
+                //console.log(JSON.parse(payload));
+                
                 var result = JSON.parse(payload);
                 //var aCreatedDt = result.assemblyCreationDate.split('-');
                 //var aUpdDt = result.assemblyLastUpdateOn.split('-');

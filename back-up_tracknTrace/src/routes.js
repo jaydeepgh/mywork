@@ -9,6 +9,7 @@ import Packaging from './components/packaging';
 import NewAssembly from './components/assembly_new';
 import UserLogin from './components/login';
 import NewPackaging from './components/packaging_new';
+import Quality from './components/quality';
 
 export default(
     <Route path="/" component={App}>
@@ -17,6 +18,7 @@ export default(
         <Route path="/Assembly" component={AssemblyLineDB} />
         <Route path="/Packaging" component={PackagingDB} />
         <Route path="/Packaging/:id" component={NewPackaging} />
+        <Route path="/Quality" component={Quality} />
 
         
         

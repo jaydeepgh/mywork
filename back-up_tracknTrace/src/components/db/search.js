@@ -22,7 +22,11 @@ import {getAssemblyInfo_DB
         , getAssembliesByDate
         , getAssembliesHistoryByBatchNumberAndByDate
         , setSearchCriteria
-        , clearSearchCriteria} from '../../actions/index';
+        , clearSearchCriteria
+        , getPackagesByDate
+        , getPackageByAssemblyIdAndByDate
+        , getPackagesHistoryByDate    
+} from '../../actions/index';
 import {AssemblySearchFields} from '../../master_data';
 
 
@@ -60,7 +64,6 @@ class SearchPane extends Component{
 
     componentDidMount()
     {
-        //console.log(this.props.userstate);
         if(this.props.userstate.id === ''){
             this.context.router.push('/');
         }
@@ -69,8 +72,6 @@ class SearchPane extends Component{
         let fromDt = new Date(toDt.getTime() - (6 * 24 * 60 * 60 * 1000));
         
         if(this.props.module==='Assembly'){
-            //this.props.getAssemblyInfo_DB(fromDt,toDt)
-                        
             this.props.getAssembliesHistoryByDate(fromDt, toDt, this.props.userstate)
             .then(()=>{
                 this.setState({loaded:true});
@@ -82,24 +83,20 @@ class SearchPane extends Component{
             });
         }
         else{
-            this.props.getPackagingInfo_DB(fromDt,toDt)
+            this.props.getPackagesHistoryByDate(fromDt, toDt, this.props.userstate)
             .then(()=>{
                 this.setState({loaded:true});
+                this.props.getPackagesByDate(fromDt, toDt, this.props.userstate);
             })
             .catch((err)=>
             {
                 console.log(err);
-            });            
+            });           
         }
-        
     }
 
 
     onSubmit(values){
-        
-        //console.log(values);
-
-        
         if(this.props.module === 'Assembly'){
             if(values.SearchCriteria != '' && values.SearchValue != ''){
 
@@ -124,7 +121,27 @@ class SearchPane extends Component{
             }
         }
         else{
-            this.props.getPackagingInfo_DB(values.SearchFromDate, values.SearchToDate)            
+            if(values.SearchCriteria != '' && values.SearchValue != ''){
+
+                this.props.getPackagesHistoryByDate(values.SearchFromDate
+                            , values.SearchToDate, this.props.userstate).then(()=>{
+                            this.props.getPackageByAssemblyIdAndByDate(values.SearchCriteria
+                                    , values.SearchValue
+                                    , values.SearchFromDate
+                                    , values.SearchToDate
+                                    , this.props.userstate)
+                            });
+  
+          }else{
+                this.props.getPackagesHistoryByDate(values.SearchFromDate
+                , values.SearchToDate
+                , this.props.userstate).then(()=>{
+                    this.props.getPackagesByDate(values.SearchFromDate
+                    , values.SearchToDate
+                    , this.props.userstate)
+                }); 
+                
+            }            
         }
         this.props.setSearchCriteria(values);
     }
@@ -141,6 +158,9 @@ class SearchPane extends Component{
             , getAssembliesHistoryByBatchNumberAndByDate 
             , setSearchCriteria
             , clearSearchCriteria
+            , getPackagesByDate
+            , getPackageByAssemblyIdAndByDate
+            , getPackagesHistoryByDate            
         } = this.props; 
             return(
                 <MuiThemeProvider>
@@ -171,18 +191,11 @@ class SearchPane extends Component{
                     </form>
                 </MuiThemeProvider>
             );
-
-
     }
-
-
-
 }
 
 SearchPane =  reduxForm({
     form:'SearchForm',
-    //initialValues:{SearchFromDate:new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000)), 
-    //    SearchToDate:new Date(), SearchCriteria:'', SearchValue:''}
     enableReinitialize: true
 })(SearchPane)
 
@@ -197,7 +210,11 @@ SearchPane = connect(state => ({
 , getAssembliesByDate
 , getAssembliesHistoryByBatchNumberAndByDate
 , setSearchCriteria
-, clearSearchCriteria}         
+, clearSearchCriteria
+, getPackagesByDate
+, getPackageByAssemblyIdAndByDate
+, getPackagesHistoryByDate
+}         
 )(SearchPane)
 
 export default SearchPane;

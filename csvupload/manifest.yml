@@ -1,0 +1,5 @@
+---
+applications:
+ - name: TrackTraceBackend
+   random-route: true
+   memory: 512M

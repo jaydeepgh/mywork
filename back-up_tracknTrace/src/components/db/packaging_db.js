@@ -27,7 +27,7 @@ class PackagingDB extends Component
         return(
              <MuiThemeProvider>
                 <div>
-                    <h1 className="ModuleCaption">Packaging Line</h1>
+                    {(this.props.userstate.role === 'Quality') ? '' :<h1 className="ModuleCaption">Track and Trace - Packaging Line</h1>}
                     <Panel>
                     <div>
                         <PackagingChart />
@@ -44,4 +44,6 @@ class PackagingDB extends Component
 
 }
 
-export default PackagingDB;
+export default connect(state => ({
+          userstate : state.userstate
+}))(PackagingDB);

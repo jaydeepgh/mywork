@@ -81,20 +81,24 @@ class AssemblyLineListDB extends Component
             this.props.clearSearchCriteria();
             if(this.props.search_criteria.SearchCriteria != '' && this.props.search_criteria.SearchValue != ''){
                 this.props.getAssembliesHistoryByDate(this.props.search_criteria.SearchFromDate
-                , this.props.search_criteria.SearchToDate, this.props.userstate); 
-                this.props.getAssembliesHistoryByBatchNumberAndByDate(this.props.search_criteria.SearchCriteria
-                        , this.props.search_criteria.SearchValue
-                        , this.props.search_criteria.SearchFromDate
-                        , this.props.search_criteria.SearchToDate
-                        , this.props.userstate);              
+                , this.props.search_criteria.SearchToDate, this.props.userstate).then(()=>{
+                    this.props.getAssembliesHistoryByBatchNumberAndByDate(this.props.search_criteria.SearchCriteria
+                            , this.props.search_criteria.SearchValue
+                            , this.props.search_criteria.SearchFromDate
+                            , this.props.search_criteria.SearchToDate
+                            , this.props.userstate);
+                }); 
+              
             }else{
                 this.props.getAssembliesHistoryByDate(this.props.search_criteria.SearchFromDate
-                , this.props.search_criteria.SearchToDate, this.props.userstate);                                
-                this.props.getAssembliesByDate(this.props.search_criteria.SearchFromDate
-                        , this.props.search_criteria.SearchToDate
-                        , this.props.userstate);
+                , this.props.search_criteria.SearchToDate, this.props.userstate).then(()=>{
+                    this.props.getAssembliesByDate(this.props.search_criteria.SearchFromDate
+                            , this.props.search_criteria.SearchToDate
+                            , this.props.userstate);
+                    })                                
+
             }          
-      } ,(res.noofrecord *6000))
+      } ,(res.noofrecord *10000))
     })
   }
   onChange(e) {
@@ -144,8 +148,9 @@ class AssemblyLineListDB extends Component
                                 <GridTile><div><span>Manufacturing Plant : </span> {row.manufacturingPlant}</div></GridTile>
                                 <GridTile><div><span>Last Updated : </span> {formatedDateTimeFromNum(row.assemblyDate)}</div></GridTile>
                                 <GridTile><div><span>Status : </span> {_.filter(AssemblyStatus, _.matches( {'id' : parseInt(row.assemblyStatus)}))[0].value}</div></GridTile>
-                                <GridTile>Edit : <Link to={`/Assembly/${row.assemblyId}`}><img className="edit_image" src="../../../img/edit1.png" /></Link></GridTile>                                
-                                <GridTile><AssemblyHistory assemblyId={row.assemblyId} type={row.deviceType} /></GridTile>                                
+                                <GridTile><AssemblyHistory assemblyId={row.assemblyId} type={row.deviceType} /></GridTile>                                                                
+                                {(this.props.userstate.role === 'Quality') ? <GridTile></GridTile> 
+                                : <GridTile>Edit : <Link to={`/Assembly/${row.assemblyId}`}><img className="edit_image" src="../../../img/edit1.png" /></Link></GridTile>}
                                 </GridList>
                             </Panel>
                         );
@@ -158,51 +163,47 @@ class AssemblyLineListDB extends Component
             
 
         <MuiThemeProvider>
-            <div>                
-            <Panel>
-                <Panel header="Upload Assembly file">
-                    <div id="upload-panel">
-                    <form onSubmit={this.onFormSubmit}>
-                        <GridList cols={2} cellHeight={40}>
-                            <GridTile>
-                                <div className="input-group">
-                                    <label className="input-group-btn">
-                                        <span className="btn btn-primary">
-                                            Browse&hellip; <input type="file" className="hide" onChange={this.onChange} / >
-                                        </span>
-                                    </label>
-                                    <input type="text" className="form-control" readonly value={(this.state.file==null)?'':this.state.file.name} />
-                                </div>
-                            </GridTile>
-                            <GridTile>
+            <div>  
+                {(this.props.userstate.role === 'Quality') ? '' :              
+                <Panel>
+                    <Panel header="Upload Assembly file">
+                        <div id="upload-panel">
+                        <form onSubmit={this.onFormSubmit}>
+                            <GridList cols={2} cellHeight={40}>
+                                <GridTile>
+                                    <div className="input-group">
+                                        <label className="input-group-btn">
+                                            <span className="btn btn-primary">
+                                                Browse&hellip; <input type="file" className="hide" onChange={this.onChange} / >
+                                            </span>
+                                        </label>
+                                        <input type="text" className="form-control" readonly value={(this.state.file==null)?'':this.state.file.name} />
+                                    </div>
+                                </GridTile>
+                                <GridTile>
+                                    <div>
+                                        <Button type="submit" bsStyle="primary">Upload File</Button>                                        
+                                    </div>                                    
+                                </GridTile>                                    
+                            </GridList>
                                 <div>
-                                    <Button type="submit" bsStyle="primary">Upload File</Button>                                        
-                                </div>                                    
-                            </GridTile>                                    
-                        </GridList>
-                            <div>
-                                <Dialog
-                                title="Please wait..."
-                                modal={false}
-                                open={this.state.progressopen}
-                                >
-                                    <ProgressBar />
-                                </Dialog>
+                                    <Dialog
+                                    title="Please wait..."
+                                    modal={false}
+                                    open={this.state.progressopen}
+                                    >
+                                        <ProgressBar />
+                                    </Dialog>
+                                </div>
+                            </form>
                             </div>
-                        </form>
-                        </div>
-                    </Panel>
-            </Panel>
-
-
-
-
+                        </Panel>
+                </Panel>}
                 <Panel>       
                     <Panel header="Existing Assembly Items">
                         {assemblydata}
                     </Panel>
                 </Panel>
-
             </div>
         </MuiThemeProvider>
         );

@@ -6,12 +6,18 @@ const client = new Client();
 
 
 //Constants
-const CHAIN_CODE_ID = '3f2edbdebae67f34e73409f8c53e46d990b390e6926ddfdc9e548039fa9c68510bd5a79988a3ba1141db2962306ae0c9dd2a0016544ce12a2a898474de073dc8';
+const CHAIN_CODE_ID = '4d5426962528559b22934d394edccc4b07242143f125f0bc0f0b357617bc75a11ea03afabac03e36c3e0176848610be6dd7225287ae54caeeb978e3195b3ebb4';
 const asm_cols = blockchain_util.AssemblyCols;
 const pkg_cols = blockchain_util.PackageCols;
 
 //Variable 
-let blockchain_data = {
+
+
+
+exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
+
+
+    let blockchain_data = {
         jsonrpc: "2.0",
         method: '',
         params: {
@@ -28,9 +34,6 @@ let blockchain_data = {
         id: 0
     }
 
-
-exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
-
     let status = _.filter(blockchain_util.AssemblyStatus,_.matches({"value" : row[asm_cols.STATUS]})); 
     let obj = null;
     blockchain_data.params.secureContext = secureContext;
@@ -40,7 +43,10 @@ exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
         assembly_status : row[asm_cols.STATUS],
         message : `Assembly status ${row[asm_cols.STATUS]} does not exists.`};
     //console.log(row);
+    
+ 
     if(status.length>0){
+        console.log('status >>>>>>>>>>>' + status[0].id);
 
         blockchain_data.params.ctorMsg.args = [
         row[asm_cols.ASSEMBLY_ID]
@@ -83,7 +89,7 @@ exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
                         blockchain_data.params.ctorMsg.function = 'createAssembly';
                         blockchain_data.id = 1;                        
                         args.data = JSON.stringify(blockchain_data);
-                        console.log(blockchain_data);
+                        console.log(args.data);
                         client.post(peer, args, function (data, response) {
                             //console.log('within create');
                             //console.log(data);
@@ -132,7 +138,7 @@ exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
                         blockchain_data.params.ctorMsg.function = 'updateAssemblyByID';
                         blockchain_data.id = 1;                        
                         args.data = JSON.stringify(blockchain_data);
-                        console.log(blockchain_data);                        
+                        //console.log(blockchain_data);                        
                         client.post(peer, args, function (data, response) {
                         //    console.log(data);
                             if(typeof data.error === 'undefined')
@@ -171,6 +177,24 @@ exports.AssemblyLineInvoke = (row, uid, peer, secureContext, callback) =>{
 }
 
 exports.PackagingLineInvoke = (row, uid, peer, secureContext, callback) =>{
+
+    let blockchain_data = {
+            jsonrpc: "2.0",
+            method: '',
+            params: {
+                type: 1,
+                chaincodeID: {
+                name: CHAIN_CODE_ID
+                },
+                ctorMsg: {
+                function: '',
+                args: []
+                },
+                secureContext: "user_type1_0"
+            },
+            id: 0
+        }
+    
     let status = _.filter(blockchain_util.PackageStatus,_.matches({"value" : row[pkg_cols.PACKAGE_STATUS]})); 
     let obj = null;
     blockchain_data.params.secureContext = secureContext;
@@ -179,6 +203,7 @@ exports.PackagingLineInvoke = (row, uid, peer, secureContext, callback) =>{
         packaging_status : row[pkg_cols.PACKAGE_STATUS],
         message : `Packaging status ${row[pkg_cols.PACKAGE_STATUS]} does not exists.`};
     if(status.length>0){
+        console.log('status >>>>>>>>>>>' + status[0].id);
 
         blockchain_data.params.ctorMsg.args = [
         row[pkg_cols.CASE_ID]
@@ -212,11 +237,11 @@ exports.PackagingLineInvoke = (row, uid, peer, secureContext, callback) =>{
                         blockchain_data.params.ctorMsg.function = 'createPackage';
                         blockchain_data.id = 1;                        
                         args.data = JSON.stringify(blockchain_data);
-                        console.log(blockchain_data);
+                        //console.log(blockchain_data);
                         client.post(peer, args, function (data, response) {
                             if(typeof data.error === 'undefined')
                             {
-                                obj = {error_code : -1, 
+                                obj = {error_code : 0, 
                                 packaging_code : row[pkg_cols.CASE_ID],
                                 packaging_status : row[pkg_cols.PACKAGE_STATUS],
                                 message : `Packaging item created`};
@@ -224,7 +249,7 @@ exports.PackagingLineInvoke = (row, uid, peer, secureContext, callback) =>{
                                 callback(obj);
                             }
                             else{
-                                obj = {error_code : -1, 
+                                obj = {error_code : data.error.code, 
                                 packaging_code : row[pkg_cols.CASE_ID],
                                 packaging_status : row[pkg_cols.PACKAGE_STATUS],
                                 message : blockchain_util.GetActualError(data.error.data)};                                
@@ -234,7 +259,7 @@ exports.PackagingLineInvoke = (row, uid, peer, secureContext, callback) =>{
                     }
                     else
                     {
-                            obj = {error_code : -1, 
+                            obj = {error_code : data.error.code, 
                             packaging_code : row[pkg_cols.CASE_ID],
                             packaging_status : row[pkg_cols.PACKAGE_STATUS],
                             message : blockchain_util.GetActualError(data.error.data)};                                
@@ -262,14 +287,14 @@ exports.PackagingLineInvoke = (row, uid, peer, secureContext, callback) =>{
                         //    console.log(data);
                             if(typeof data.error === 'undefined')
                             {
-                                obj = {error_code : -1, 
+                                obj = {error_code : 0, 
                                 packaging_code : row[pkg_cols.CASE_ID],
                                 packaging_status : row[pkg_cols.PACKAGE_STATUS],
                                 message : 'Package Updated'};                                
                                 callback(obj);                                                               
                             }
                             else{
-                                obj = {error_code : -1, 
+                                obj = {error_code : data.error.code, 
                                 packaging_code : row[pkg_cols.CASE_ID],
                                 packaging_status : row[pkg_cols.PACKAGE_STATUS],
                                 message : blockchain_util.GetActualError(data.error.data)};                                
@@ -279,7 +304,7 @@ exports.PackagingLineInvoke = (row, uid, peer, secureContext, callback) =>{
                     }
                     else
                     {
-                        obj = {error_code : -1, 
+                        obj = {error_code : data.error.code, 
                         packaging_code : row[pkg_cols.CASE_ID],
                         packaging_status : row[pkg_cols.PACKAGE_STATUS],
                         message : blockchain_util.GetActualError(data.error.data)};                                

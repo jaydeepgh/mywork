@@ -14,7 +14,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {GridList, GridTile} from 'material-ui/GridList';
 import {UserInfo} from '../master_data';
 
-import {setUserState} from '../actions/index';
+import {setUserState, clearSearchCriteria} from '../actions/index';
 
 const validate = values => {
   const errors = {}
@@ -30,11 +30,11 @@ const validate = values => {
 
 class UserLogin extends Component{
 
-  static get contextTypes() {
-    return {
-      router: React.PropTypes.object.isRequired,
-    };
-  }
+    static get contextTypes() {
+        return {
+            router: React.PropTypes.object.isRequired,
+        };
+    }
 
 
     onSubmit(values){
@@ -44,20 +44,19 @@ class UserLogin extends Component{
         var chainnode = null;
         var secureContext = '';
         _.each(UserInfo,(user)=>{
-           if(user.id == values.username && user.passcode == values.password){
-               validuser = true;
-               role = user.role;
-               id = user.id;
-               chainnode = user.chainnode;
-               secureContext = user.secureContext;
-               //console.log(user.secureContext);
-           } 
+            if(user.id == values.username && user.passcode == values.password){
+                validuser = true;
+                role = user.role;
+                id = user.id;
+                chainnode = user.chainnode;
+                secureContext = user.secureContext;
+                //console.log(user.secureContext);
+            } 
         })
         if(validuser){
+            this.props.clearSearchCriteria();
             this.props.setUserState(id,role,chainnode,secureContext);
                 this.context.router.push(`/${role}`);
-            
-
         }else{
             alert('Invalid user credentials');
         }
@@ -126,7 +125,7 @@ UserLogin =  reduxForm({
 })(UserLogin)
 
 UserLogin = connect(null,
-  {setUserState}               
+  {setUserState, clearSearchCriteria}               
 )(UserLogin)
 
 export default UserLogin;

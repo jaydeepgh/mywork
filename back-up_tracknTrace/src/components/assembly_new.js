@@ -52,6 +52,7 @@ class NewAssembly extends Component
             this.context.router.push('/');
         }
         if(this.props.params.id!='0'){
+            //console.log('reached edit >>>>>> ' + this.props.params.id);
             this.props.getAssemblyLinesById(this.props.params.id, this.props.userstate)
             .then(()=>{
                 this.setState({loaded:true});
@@ -170,9 +171,6 @@ class NewAssembly extends Component
                                 <GridList cols={3} cellHeight={65}>
                                 {_.keys(FIELDS_HOLDER).map((key)=>{
                                     let field = _.at(FIELDS_HOLDER,key)[0];
-                                        if(this.props.initialValues.assemblyStatus != '' && parseInt(this.props.initialValues.assemblyStatus) >= 6){field.disabled = true;}else{                                            
-                                            field.disabled = false;
-                                            } 
                                         return <GridTile key={key}>
                                             <div>                                            
                                                 {this.getControls(field,key)}
@@ -189,9 +187,6 @@ class NewAssembly extends Component
                                 <GridList cols={3} cellHeight={65}>
                                 {_.keys(FIELDS_CHARGER).map((key)=>{
                                     let field = _.at(FIELDS_CHARGER,key)[0];
-                                        if(this.props.initialValues.assemblyStatus != '' && parseInt(this.props.initialValues.assemblyStatus) >= 6){field.disabled = true;}else{                                            
-                                            field.disabled = false;
-                                            } 
                                         return <GridTile key={key}>
                                             <div>                                            
                                                 {this.getControls(field,key)}
