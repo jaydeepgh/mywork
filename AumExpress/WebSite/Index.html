@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    
+
+
+    <script src="../js/jquery-1.11.3.min.js"></script>
+
+
+        <!-- Bootstrap CSS  -->
+    <link rel="stylesheet" href="../css/bootstrap.css" type="text/css" media="screen">
+        <!-- Responsive CSS Styles  -->
+    <link rel="stylesheet" type="text/css" href="../css/responsive.css" media="screen">
+
+    <script src="../Slider/js/jquery.bxslider.min.js"></script>
+    <link href="../Slider/CSS/jquery.bxslider.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../CSS/aumexp.css" />
+
+
+    <!-- directorySlider Javascript file -->
+    <script src="../Slider/js/directorySlider.js"></script>
+    <script src="../js/ReadJSON.js"></script>
+</head>
+<body > <!--onresize="resizeme();"-->
+    <div class="main-container">
+
+        <div class="top-bar">
+            <a class="logo" href="#">
+                <img src="../images/logo.jpg"></a>
+            <div class="header-componenet">AWB NO            
+            <input id="txtAWBNo" type="text" />
+            <input class="button" id="btnTrack" type="button" value="Track" />
+            <input class="button" id="btnWebMail" type="button" value="WebMail" />
+                <input class="button" id="btnClientLogin" type="button" value="Client Login" />
+            </div>
+
+        </div><!--end of top panel-->
+        
+        
+        <div class="nav-panel">
+            <div id="mobile-nav"></div>
+            <nav>
+                <ul id="leftMenu" class="menu"></ul>
+            </nav>
+            <div class="marquee"></div>
+        </div>
+        
+    
+        <!--slider panel-->
+        <div id="sliderContainer"></div>
+   
+        <!--main section-->
+        <div id="mainPanel" class="mainPanel">
+        </div>
+        
+        <!--<div class="h-seperator"></div>-->
+        <!--footer-->
+        <div class="footerPanel">
+            <div class="footer-container">
+                <div id="footer1" class="footer-content"></div>
+                <div id="footer2" class="footer-content"></div>
+                <div id="footer3" class="footer-content"></div>
+                <div id="footer4" class="footer-content"></div>
+
+            </div>
+            <!--<div id="footer1" class="footer-content"></div>
+            <div id="footer2" class="footer-container"></div>-->
+            <!--<div id="footer3" class="footer-container"></div>-->
+            <!--<div id="footer4" class="footer-container"></div>-->
+
+        </div>
+
+        <div class="nav-panel"></div>
+    </div><!--end of main-container-->
+
+
+  <script src="../menu/mostrar_nav.js"></script>
+
+    <script type="text/javascript">
+
+
+        function initMap() {
+            //alert('initMap');
+            setTimeout(2000);
+            var uluru = { lat: 22.557167, lng: 88.366574 };
+
+            //var uluru = { lat: 88.36445741416401, lng: 22.55836893917963 };
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 16,
+                center: uluru
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+        }
+
+
+    var source = builddata();
+    var ul = $('#leftMenu');
+    setTimeout(buildUL, 3000, ul, source);
+
+    //call marquee
+    var marquee = $('.marquee');
+    getMarquee(marquee);
+
+
+
+    $(document).ready(function () {
+        getSlider();
+        setTimeout(function () {
+            var x = $('.bxslider');
+            getSliderImages(x);
+        }, 50);
+        setTimeout(function () {
+            slider = $('.bxslider').bxSlider();
+            slider.startAuto();
+        }, 1000);
+    });
+
+    //get main panel data
+    getPage('Home');
+
+    getFooter();
+
+
+
+
+
+    </script>
+
+</body>
+</html>

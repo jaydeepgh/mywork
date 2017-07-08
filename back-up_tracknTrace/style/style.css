@@ -51,7 +51,18 @@
 
 .asmHist{
     background: white;
+    min-height:400px;
 }
+
+.chartLoadingDiv{
+    float:left;
+    width:600px;
+    height: 300px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 110px;
+}
+
 
 
 /********************************************************************************/
@@ -103,6 +114,7 @@
      /*margin-top: 120px;
      margin-left: 580px;*//* chnage total div position*/
      display: none;
+     width:29%;
  }
 
   .image_arrow{
@@ -113,10 +125,11 @@
  }
  .image_box{
      height: auto;
-     width: auto;
-     background: rgb(250,247,182);
-     padding:10px;
-     color:rgb(43,128,195) 
+    width: auto;
+    background: #027d5a;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px; 
  }
 
  .nodecontainer{
@@ -133,20 +146,32 @@
 }
 
 .userImage{
-  border: 1px solid rgb(43,128,195);
   border-radius: 12px;
-  width:50px;
-  height: 50px;
+  width:auto;
+  height: 65px;
+}
+
+.nodeItemLabel1{
+
+width: 40%;
+text-align: left;
+
+}
+.nodeItemValue{
+    width: 60%;
+    text-align: right;
+    margin-left: 40%;
+    margin-top: -19px;
+
 }
 
 .nodeHeader_item{
-    font-size: 9pt;
+    font-size: 13px;
     font-weight: bold;
-    padding : 4px;
+    padding: 4px;
     max-width: 200px;
     text-align: center;
-    word-wrap: true;
-    font-style: italic;
+    margin-left: 15px;
 }
 
 
@@ -154,7 +179,8 @@
 
 .nodeItems{
     max-height: 60px !important;
-    max-width: 200px !important;
+    max-width: 300px !important;
+    
 }
 
 .hrclass{
@@ -162,7 +188,7 @@
     margin-bottom: 0px !important; 
     height: 1px;
     border: 0;
-    border-top: 1px solid rgb(43,128,195);
+    border-top: 1px solid #fff;
     padding: 2px;     
 }
 

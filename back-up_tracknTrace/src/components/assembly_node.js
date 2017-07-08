@@ -115,11 +115,11 @@ export default class AssemblyNode extends Component{
         return(
             <div>
                 <div className="floating" style={this.state.nodedetailstyle}>
-                        <img  className="image_arrow" src="../../flow/arrow.png" height="auto" width= "auto" />
+                        <img  className="image_arrow" src="../../img/arrow.png" height="auto" width= "auto" />
                         <div className="image_box">
                             <div className="nodeHeader">
                                 <div><img src="../../img/user.png" className="userImage" />                                
-                                    <span className="nodeHeader_item">{(this.state.nodedata.assemblyStatus==='1')?'Created':'Updated'} By : 
+               <span className="nodeHeader_item">{(this.state.nodedata.assemblyStatus==='1')?'Created':'Updated'} By : &nbsp;
                                     {this.state.nodedata.assemblyLastUpdatedBy}<br />
                                     </span>
                                 </div>
@@ -127,24 +127,59 @@ export default class AssemblyNode extends Component{
                             <div><hr className="hrclass" /></div>
                             {(this.state.nodedata.deviceType.toLowerCase().substring(0,4) === 'hold')?
                             <div>
-                                <div className="nodeItems">Date : {(this.state.nodedata.assemblyDate!="")?formatedDateTimeFromNum(this.state.nodedata.assemblyDate):''}</div>
-                                    <div className="nodeItems">Serial No: {this.state.nodedata.deviceSerialNo}</div>                                                          
-                                    <div className="nodeItems">Filament : {this.state.nodedata.filamentBatchId}</div>
-                                    <div className="nodeItems">LED : {this.state.nodedata.ledBatchId}</div>
-                                    <div className="nodeItems">Circuit Board : {this.state.nodedata.circuitBoardBatchId}</div>
-                                    <div className="nodeItems">Casing : {this.state.nodedata.casingBatchId}</div>
-                                    <div className="nodeItems">Stick Pod : {this.state.nodedata.stickPodBatchId}</div>
-                                    {(typeof this.state.nodedata.info1 != 'undefined' && (this.state.nodedata.info1.length > 0 || this.state.nodedata.info2.length >0))?
-                                        <div><hr className="hrclass" />
-                                            <span className="nodeItems">{this.state.nodedata.info1}<br />{this.state.nodedata.info2}</span>                                            
-                                        </div>
-                                            : ''}                                                                   
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Date : </div>
+                                    <div className="nodeItemValue">{(this.state.nodedata.assemblyDate!="")?formatedDateTimeFromNum(this.state.nodedata.assemblyDate):''}</div>
+                                </div>
+               {(this.state.nodedata.deviceSerialNo.length >0)?
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Serial No: </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.deviceSerialNo}</div>
+                                </div>
+               : ''}
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Filament : </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.filamentBatchId}</div>
+                                </div>
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">LED : </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.ledBatchId}</div>
+                                </div>
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Circuit Board : </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.circuitBoardBatchId}</div>
+                                </div>
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Casing : </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.casingBatchId}</div>
+                                </div>
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Stick Pod : </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.stickPodBatchId}</div>
+                                </div>
+                                {(typeof this.state.nodedata.info1 != 'undefined' && (this.state.nodedata.info1.length > 0 || this.state.nodedata.info2.length >0))?
+                                    <div><hr className="hrclass" />
+                                        <span className="nodeItems">{this.state.nodedata.info1}<br />{this.state.nodedata.info2}</span>                                            
+                                    </div>
+                                        : ''}                                                                   
                             </div>:
                             <div>
-                                <div className="nodeItems">Date : {(this.state.nodedata.assemblyDate!="")?formatedDateTimeFromNum(this.state.nodedata.assemblyDate):''}</div>                                
-                                    <div className="nodeItems">Serial No: {this.state.nodedata.deviceSerialNo}</div> 
-                                    <div className="nodeItems">Adapter : {this.state.nodedata.adaptorBatchId}</div>
-                                    <div className="nodeItems">Wire : {this.state.nodedata.wireBatchId}</div>
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Date : </div> 
+                                    <div className="nodeItemValue">{(this.state.nodedata.assemblyDate!="")?formatedDateTimeFromNum(this.state.nodedata.assemblyDate):''}</div>
+                                </div>                                
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Serial No: </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.deviceSerialNo}</div>
+                                </div> 
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Adapter : </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.adaptorBatchId}</div>
+                                </div>
+                                <div className="nodeItems">
+                                    <div className="nodeItemLabel1">Wire : </div>
+                                    <div className="nodeItemValue">{this.state.nodedata.wireBatchId}</div>
+                                </div>
                                     {(typeof this.state.nodedata.info1 != 'undefined' && (this.state.nodedata.info1.length > 0 || this.state.nodedata.info2.length >0))?
                                         <div><hr className="hrclass" />
                                             <span className="nodeItems">{this.state.nodedata.info1}<br />{this.state.nodedata.info2}</span>                                            

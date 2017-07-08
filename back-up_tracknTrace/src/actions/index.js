@@ -224,8 +224,9 @@ export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
 
         /////////////////////////////////////////////
         //console.log(res);
+        //console.log(JSON.stringify(data));
         var pl = (typeof res.data.result!='undefined')?JSON.parse(res.data.result.message):"[]";
-        //console.log(pl);
+        //console.log(assemblyListDetails);
         var assemblyListDetails = pl;
         var fromDt = fromDate;
         var toDt = toDate;
@@ -236,43 +237,46 @@ export function getAssembliesHistoryByDate(fromDate,toDate, userstate){
         //console.log('fromDate >>>> ' + fromDate.getDate());
         var dtCounter = fromDt;
         var nDtCounter = 0;
+        //console.log(assemblyListDetails);
         for(var i=0;i<totNoOfDays;i++){
             nDtCounter = dateToNum(dtCounter); // parseInt(`${dtCounter.getFullYear()}${dtCounter.getMonth()+1}${dtCounter.getDate()}`);
             //console.log(nDtCounter);
-            if(toDate.getDate()<dtCounter.getDate()) break;
+            if(toDate < dtCounter) break;
             var chartItem = {
                 'date' : `${dtCounter.getDate()}`
-                , 'Created' : _.filter(assemblyListDetails, (x) =>{
+                , 'Created' : (assemblyListDetails.length > 0)? _.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '1' ) return x;
-                    }).length
-                ,  'QA Failed' : _.filter(assemblyListDetails, (x) =>{
+                    }).length : 0
+                ,  'QA Failed' : (assemblyListDetails.length > 0)? _.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '2' ) return x;
-                    }).length
-                , 'Rectified' :_.filter(assemblyListDetails, (x) =>{
+                    }).length : 0
+                , 'Rectified' :(assemblyListDetails.length > 0)? _.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '3' ) return x;
-                    }).length
-                , 'QA Tested' : _.filter(assemblyListDetails, (x) =>{
+                    }).length : 0
+                , 'QA Tested' : (assemblyListDetails.length > 0)?_.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '4' ) return x;
-                    }).length
-                , 'Codentified' : _.filter(assemblyListDetails, (x) =>{
+                    }).length : 0
+                , 'Codentified' : (assemblyListDetails.length > 0)?_.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '5' ) return x;
-                    }).length    
-                , 'Ready for Packaging' : _.filter(assemblyListDetails, (x) =>{
+                    }).length : 0   
+                , 'Ready for Packaging' : (assemblyListDetails.length > 0)?_.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '6' ) return x;
-                    }).length
-                , 'Packaged' : _.filter(assemblyListDetails, (x) =>{
+                    }).length : 0
+                , 'Packaged' : (assemblyListDetails.length > 0)?_.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '7' ) return x;
-                    }).length
-                , 'Cancelled' : _.filter(assemblyListDetails, (x) =>{
+                    }).length : 0
+                , 'Cancelled' : (assemblyListDetails.length > 0)?_.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '8' ) return x;
-                    }).length
-                , 'InActive' : _.filter(assemblyListDetails, (x) =>{
+                    }).length : 0
+                , 'InActive' : (assemblyListDetails.length > 0)?_.filter(assemblyListDetails, (x) =>{
                         if(x.assemblyDate.toString().substring(0,8) == nDtCounter.toString() && x.assemblyStatus == '9' ) return x;
-                    }).length   
+                    }).length : 0  
             }
             chartData.push(chartItem);
+            //console.log(chartItem);
             dtCounter = new Date(dtCounter.getTime() + (1 * 24 * 60 * 60 * 1000));
         }
+        //console.log(chartData);
         return chartData;
 
         ///////////////////////////////////////////////
@@ -453,7 +457,6 @@ export function getPackagesHistoryByDate(fromDate,toDate, userstate){
     data.params.ctorMsg.args = [fromDt_bc, toDt_bc, userstate.id];
     data.params.secureContext = userstate.secureContext;
 
-
     const request = axios.post(userstate.chainnode_url,JSON.stringify(data)).then((res)=>{
 
         /////////////////////////////////////////////
@@ -472,23 +475,19 @@ export function getPackagesHistoryByDate(fromDate,toDate, userstate){
         for(var i=0;i<totNoOfDays;i++){
             nDtCounter = dateToNum(dtCounter); // parseInt(`${dtCounter.getFullYear()}${dtCounter.getMonth()+1}${dtCounter.getDate()}`);
             //console.log(nDtCounter);
-            if(toDate.getDate()<dtCounter.getDate()) break;
+            if(toDate < dtCounter) break;
             var chartItem = {
                 'date' : `${dtCounter.getDate()}`
-                , 'Packaged' : _.filter(pl, (x) =>{
-                        //console.log(x.packagingDate.toString().substring(0,8));
-                        //console.log(nDtCounter.toString());
-                        //console.log(x.packageStatus);
+                , 'Packaged' : (pl.length > 0)?_.filter(pl, (x) =>{
                         if(x.packagingDate.toString().substring(0,8) == nDtCounter.toString() && x.packageStatus == '1' ){
-                            console.log('here');
                                 return x};
-                    }).length
-                , 'Shipped' : _.filter(pl, (x) =>{
+                    }).length : 0
+                , 'Shipped' : (pl.length > 0)?_.filter(pl, (x) =>{
                         if(x.packagingDate.toString().substring(0,8) == nDtCounter.toString() && x.packageStatus == '2' ) return x;
-                    }).length                    
-                , 'Cancelled' : _.filter(pl, (x) =>{
+                    }).length : 0                   
+                , 'Cancelled' : (pl.length > 0)?_.filter(pl, (x) =>{
                         if(x.packagingDate.toString().substring(0,8) == nDtCounter.toString() && x.packageStatus == '3' ) return x;
-                    }).length  
+                    }).length : 0 
             }
             chartData.push(chartItem);
             dtCounter = new Date(dtCounter.getTime() + (1 * 24 * 60 * 60 * 1000));

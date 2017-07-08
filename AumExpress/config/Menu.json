@@ -1,0 +1,62 @@
+﻿[
+  {
+    "id": "1",
+    "text": "Home",
+    "parentid": "-1",
+    "target": "#"
+  },
+  {
+    "id": "2",
+    "text": "Vision",
+    "parentid": "-1",
+    "target": "#"
+  },
+  {
+    "id": "3",
+    "text": "Services",
+    "parentid": "-1",
+    "target": "#"
+  },
+  {
+    "id": "4",
+    "text": "Franchisee",
+    "parentid": "-1",
+    "target": "new"
+  },
+  {
+    "id": "5",
+    "text": "Clients",
+    "parentid": "-1",
+    "target": "#"
+  },
+  {
+    "id": "6",
+    "text": "Management",
+    "parentid": "-1",
+    "target": "#"
+  },
+  {
+    "id": "7",
+    "text": "Career",
+    "parentid": "-1",
+    "target": "#"
+  },
+  {
+    "id": "8",
+    "text": "About Us",
+    "parentid": "-1",
+    "target": "#"
+  },
+  {
+    "id": "9",
+    "text": "Contact Us",
+    "parentid": "-1",
+    "target": "#"
+  },
+  {
+    "id": "10",
+    "text": "Admin",
+    "parentid": "-1",
+    "target": "prompt"
+  }
+]               

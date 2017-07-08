@@ -2,18 +2,20 @@ import React, {Component} from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import {connect} from 'react-redux';
 
-
+import CircularProgress from 'material-ui/CircularProgress';
 
 class AssemblyLineChart extends Component{
+
+     
 
 	render () {
             
             if(typeof this.props.assemblyChartData!= 'undefined' && this.props.assemblyChartData.length > 0){
 
-                  return (
-                      <div className="chartPan">
-                <BarChart width={600} height={300} data={this.props.assemblyChartData}
-                margin={{top: 15, right: 20, left: 0, bottom: 5}}>
+                return (
+                <div className="chartPan">
+                    <BarChart width={600} height={300} data={this.props.assemblyChartData}
+                        margin={{top: 15, right: 20, left: 0, bottom: 5}}>
                   <Legend verticalAlign="top" />
                   <XAxis dataKey="date"/>
                   <YAxis interval={0} allowDecimals={false} />
@@ -28,7 +30,7 @@ class AssemblyLineChart extends Component{
                   );
 
             }else{
-                return(<div>Loading .....</div>);
+                return(<div className="chartLoadingDiv"><CircularProgress size={60} thickness={7} /></div>);
             }
 
   }

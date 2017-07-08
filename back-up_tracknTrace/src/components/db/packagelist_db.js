@@ -102,17 +102,6 @@ class PackagingListDB extends Component
         return  post(url,formData,config);
     }
 
-
-
-
-/*
-    componentWillMount(){
-
-        if(this.props.userstate.id === ''){
-            this.props.getAllAssemblyLines(this.props.userstate);
-        }
-    }
-*/
     render(){
 
         const {clearSearchCriteria
@@ -122,7 +111,6 @@ class PackagingListDB extends Component
        } = this.props;
             let packagedata = '';
 
-            //console.log(this.props.assemblylist.length);
             
             if(this.props.packaginglist.length > 0){
                 packagedata = this.props.packaginglist.map((row) =>{

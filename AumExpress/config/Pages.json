@@ -1,0 +1,428 @@
+﻿{
+  "Home": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "Welcome to AUM express"
+      },
+      {
+        "id": "mainContent",
+        "text": "Specializing primarily in the East and the North East regions of the country, we rank high in providing complete logistics solutions. Our forte is to provide the best compromise between cost, speed and reliability, thus earning repute for Aum Express Pvt Ltd."
+      }
+    ]
+  },
+  "Vision": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "OUR VISION"
+      },
+      {
+        "id": "mainContent",
+        "text": "OUR COMPANY OBJECTIVES : WHAT WE PROMISE TO DELIVER :-<br /><ul><li>Rapidly growing chain: Very soon, Aum Express will be offering you service throughout the country, not just the east and the north east.</li><li>Managing the process: At Aum Express, services are designed to ensure that each step of your shipment is carefully coordinated and managed. Our staff is comprised of professionals who are committed to securing the process so as to meet your requirements.</li><li>Linking up with you: In order to better understand your specific needs and expectations, we work closely together with you. A dedicated customer service support is available at all working hours to constantly answer your queries.</li><li>Timing is everything: We promise timely delivery - both for COD and Non COD shipments.</li>"
+      }
+    ]
+  },
+  "Services": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "OUR SERVICES"
+      },
+      {
+        "id": "serviceItemImg1",
+        "text": "../images/Services/Warehouse.jpg"
+      },
+      {
+        "id": "serviceItemText1",
+        "text": "Providing Warehouse at different locations."
+      },
+      {
+        "id": "serviceItemImg2",
+        "text": "../images/Services/Cash-On-Delivery-Icon.png"
+      },
+      {
+        "id": "serviceItemText2",
+        "text": "Handling COD / TOPAY consignments."
+      },
+      {
+        "id": "serviceItemImg3",
+        "text": "../images/Services/Load.jpg"
+      },
+      {
+        "id": "serviceItemText3",
+        "text": "Handling FTL & LTL loads anywhere in the country."
+      },
+      {
+        "id": "serviceItemImg4",
+        "text": "../images/Services/eCommerce.png"
+      },
+      {
+        "id": "serviceItemText4",
+        "text": "Expertise in handling ECOM shipments."
+      },
+      {
+        "id": "serviceItemImg5",
+        "text": "../images/Services/logistics.jpg"
+      },
+      {
+        "id": "serviceItemText5",
+        "text": "Distributions of cargo through own transportation network in B2B & B2C format."
+      }
+    ]
+  },
+  "Franchisee": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "AUM EXPRESS - FRANCHISEE"
+      },
+      {
+        "id": "mainContent",
+        "text": "<h3>Requirements:-</h3><ol><li>100 qft. Area minimum</li><li>Furniture for office</li><li>Internet Facilities with a computer system.</li><li>Usage of AumEx Brandings and flex</li></ol><br /><br /><b>Training and Development</b><br />At AumEx we aim to thrive on the success that our franchisee partner gains from adopting our model. We feel a company grows on the collective effort of its entire team hence it is imperative that the franchisee would be made to undergo training to understand the extent and scope of work. This is done solely because AumEx believes in building relationships first and then growing through its business development. Usual induction and training are carried out to make the franchise partners equipped with cutting edge technology and business acumen. AumEx extends support in domain of IT, Marketing & Promotional activities, Efficient Operational handlings, Business planning and growth. This process is continuous and thus projects in making our partner excel with us in its endeavors.<br /><br /><b>Benefits of taking up AumEx Franchise</b><br /><ul><li>Assured returns on venture.</li><li>Instant access to a Network of 8000+ pin code network in east and north east India</li><li>Access to remote location deliveries.</li><li>A guaranteed business model that allows you to grow continuously.</li><li>Access to a holistic basket of services allowing you to cover all the end-to-end needs of clients and meeting up with the different tasks.</li><li>Scope to diversify and grow, along with the company, into various arenas of logistics and warehousing.</li></ul>"
+      },
+      {
+        "id": "franForm",
+        "text": "Franchisee Form"
+      },
+      {
+        "id": "fItemLabel1",
+        "text": "Name : "
+      },
+      {
+        "id": "fItemLabel2",
+        "text": "Contact Name : "
+      },
+      {
+        "id": "fItemLabel3",
+        "text": "Address : "
+      },
+      {
+        "id": "fItemLabel4",
+        "text": "E-Mail : "
+      },
+      {
+        "id": "fItemLabel5",
+        "text": "Phone Number : "
+      },
+      {
+        "id": "submit",
+        "text": "Submit"
+      }
+    ]
+  },
+  "Clients": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "AUM Express - Clients"
+      },
+      {
+        "id": "c1",
+        "text": "../images/AumCompany/acer.jpg"
+      },
+      {
+        "id": "c2",
+        "text": "../images/AumCompany/amway.jpg"
+      },
+      {
+        "id": "c3",
+        "text": "../images/AumCompany/Atos.jpg"
+      },
+      {
+        "id": "c4",
+        "text": "../images/AumCompany/carestream.jpg"
+      },
+      {
+        "id": "c5",
+        "text": "../images/AumCompany/dell.jpg"
+      },
+      {
+        "id": "c6",
+        "text": "../images/AumCompany/dhl.jpg"
+      },
+      {
+        "id": "c7",
+        "text": "../images/AumCompany/Eureka-Forbes.jpg"
+      },
+      {
+        "id": "c8",
+        "text": "../images/AumCompany/gionee.jpg"
+      },
+      {
+        "id": "c9",
+        "text": "../images/AumCompany/gnj.jpg"
+      },
+      {
+        "id": "c10",
+        "text": "../images/AumCompany/herbalife.jpg"
+      },
+      {
+        "id": "c11",
+        "text": "../images/AumCompany/hitech.jpg"
+      },
+      {
+        "id": "c12",
+        "text": "../images/AumCompany/hp.jpg"
+      },
+      {
+        "id": "c13",
+        "text": "../images/AumCompany/ibm.jpg"
+      },
+      {
+        "id": "c14",
+        "text": "../images/AumCompany/jabong.jpg"
+      },
+      {
+        "id": "c15",
+        "text": "../images/AumCompany/konica.jpg"
+      },
+      {
+        "id": "c16",
+        "text": "../images/AumCompany/lava.jpg"
+      },
+      {
+        "id": "c17",
+        "text": "../images/AumCompany/modicare.jpg"
+      },
+      {
+        "id": "c18",
+        "text": "../images/AumCompany/myntra.jpg"
+      },
+      {
+        "id": "c19",
+        "text": "../images/AumCompany/oriental-bank-of-commerce.jpg"
+      },
+      {
+        "id": "c20",
+        "text": "../images/AumCompany/Philips.jpg"
+      },
+      {
+        "id": "c21",
+        "text": "../images/AumCompany/sd.jpg"
+      },
+      {
+        "id": "c22",
+        "text": "../images/AumCompany/sequel.jpg"
+      }
+    ]
+  },
+  "Management": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "AUM Express Team"
+      },
+      {
+        "id": "m-img1",
+        "text": "../images/Management/NoName.jpg"
+      },
+      {
+        "id": "m-name1",
+        "text": "Chandan Sharma"
+      },
+      {
+        "id": "m-details1",
+        "text": "Director"
+      },
+
+      {
+        "id": "m-img2",
+        "text": "../images/Management/AsimMitra.jpg"
+      },
+      {
+        "id": "m-name2",
+        "text": "Asim Mitra"
+      },
+      {
+        "id": "m-details2",
+        "text": "Sales"
+      },
+      {
+        "id": "m-img3",
+        "text": "../images/Management/CHemaRao.JPG"
+      },
+      {
+        "id": "m-name3",
+        "text": "C Hema Rao"
+      },
+      {
+        "id": "m-details3",
+        "text": "CSR"
+      },
+      {
+        "id": "m-img4",
+        "text": "../images/Management/DebasishGhosh.jpg"
+      },
+      {
+        "id": "m-name4",
+        "text": "Debasish Ghosh"
+      },
+      {
+        "id": "m-details4",
+        "text": "Channel Sales"
+      },
+      {
+        "id": "m-img5",
+        "text": "../images/Management/DeepakSingh.jpg"
+      },
+      {
+        "id": "m-name5",
+        "text": "Deepak Singh"
+      },
+      {
+        "id": "m-details5",
+        "text": "Operation"
+      },
+      {
+        "id": "m-img6",
+        "text": "../images/Management/FozailAhmad.JPG"
+      },
+      {
+        "id": "m-name6",
+        "text": "Fozail Ahmad"
+      },
+      {
+        "id": "m-details6",
+        "text": "IT QC"
+      },
+      {
+        "id": "m-img7",
+        "text": "../images/Management/IpsitaMahapatra.JPG"
+      },
+      {
+        "id": "m-name7",
+        "text": "Ipsita Mahapatra"
+      },
+      {
+        "id": "m-details7",
+        "text": "CSR"
+      },
+      {
+        "id": "m-img8",
+        "text": "../images/Management/AjaySingh.JPG"
+      },
+      {
+        "id": "m-name8",
+        "text": "Ajay Singh"
+      },
+      {
+        "id": "m-details8",
+        "text": "Branch Incharge GHY"
+      },
+      {
+        "id": "m-img9",
+        "text": "../images/Management/RanjuChetry.JPG"
+      },
+      {
+        "id": "m-name9",
+        "text": "Ranju Chetry"
+      },
+      {
+        "id": "m-details9",
+        "text": "CSR"
+      },
+      {
+        "id": "m-img10",
+        "text": "../images/Management/SohanRoy.jpg"
+      },
+      {
+        "id": "m-name10",
+        "text": "Sohan Roy"
+      },
+      {
+        "id": "m-details10",
+        "text": "Accounts"
+      }
+    ]
+  },
+  "Career": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "WORK WITH US"
+      },
+      {
+        "id": "mainContent",
+        "text": "<p>We always look for dynamic and energetic people to work for our organization. Currently we are looking for experienced people in the field of  Operations, Customer Service and other back office jobs. </p><br />Drop in your detailed Curriculum Vitae at info@aum-express.com"
+      }
+    ]
+  },
+  "AboutUs": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "ABOUT US"
+      },
+      {
+        "id": "mainContent",
+        "text": "<p>We are honored to introduce our self as a prominent name in logistics and likewise approach you to appoint us as your Courier & Forwarding Agent.</p><br /><p>Specializing primarily in the East and the North East regions of the country, we rank high in providing complete logistics solutions. Our forte is to provide the best compromise between cost, speed and reliability, thus earning repute for Aum Express Pvt Ltd.</p><br /><p>We cater those customers in particular who never compromise with service and quality. We thrive to prove our self more than the common forwarding agents as they are inapt and inefficient to provide you with the most comprehensive solution. We are able to accomplish the herculean task because of our reliable agency network that in turn enable clients to be benefited from a tailored package to their individual needs and time requirements. Our services seek distinction as we look forward to build relations rather than just connections.</p><br /><p>With an expertise and acquired knowledge after working in reputed international and domestic logistic houses, Mr. Chandan Sharma, the Founder and Director initiated the humble beginning of Aum Express Pvt Ltd in December 2010. Having known the issues faced by clients during the delivery of different shipments, he sought out to undo it, thereby providing customized logistic solutions to even the interior most and remotest areas of north, eastern and north eastern regions of India. Thus it is evident that we uphold the motto of delivering it on time anywhere you want and we are proud to boast of having a network comprising of more than 4500 locations in the eastern and north eastern terrains. Nevertheless our operations in the local circle is commendable as well, we carry out our functions smoothly with the help of our own vehicles for EOD pickups and deliveries.</p>"
+      }
+    ]
+  },
+  "ContactUs": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "CONTACT US"
+      },
+      {
+        "id": "mainContent1",
+        "text": "<i><u>Corporate Office</u></i><br />24/1C, Girish Chandra Bose Road (Near Entally Market)<br />Kolkata - 7000 14<br />West Bengal (INDIA)<br />Phone: +91 33 40602005<br />Email: info@aum-express.com<br />"
+      },
+      {
+        "id": "map1",
+        "text": ""
+      },
+      {
+        "id": "mainContent2",
+        "text": "<i><u>Warehous Office</u></i><br />154/1B, Linton Street,<br /> Kolkata - 7000 14<br />West Bengal (INDIA)<br />Phone: +91 33 40080965<br />Email: info@aum-express.com<br />"
+      },
+      {
+        "id": "map2",
+        "text": ""
+      },
+      {
+        "id": "contactForm",
+        "text": "Mail US"
+      },
+      {
+        "id": "fItemLabel1",
+        "text": "Subject : "
+      },
+      {
+        "id": "fItemLabel2",
+        "text": "Email Id: "
+      },
+      {
+        "id": "fItemLabel3",
+        "text": "Phone Number : "
+      },
+      {
+        "id": "fItemLabel4",
+        "text": "Description : "
+      },
+      {
+        "id": "submit",
+        "text": "Send Mail"
+      }
+    ]
+  },
+  "Admin": {
+    "elements": [
+      {
+        "id": "pageCaption",
+        "text": "AUM Express - Admin"
+      },
+      {
+        "id": "mainContent",
+        "text": "Admin section will appear here."
+      }
+    ]
+  }
+
+
+
+
+
+}

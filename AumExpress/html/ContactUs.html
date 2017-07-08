@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <style>
+        .map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="container" class="aumpage-container">
+        <div id="pageCaption" class="amupage-Caption"></div>
+        <p />
+        <div>
+                <h2 id="contactForm"></h2><br />
+                <div id="fItem1" class="fItem">
+                    <div id="fItemLabel1" class="fItemLabel"></div>
+                    <div id="fItemInput1" class="fItemInput"><input type="text" name ="subject" id="subject" /></div>
+                </div>
+                <div id="fItem2" class="fItem">
+                    <div id="fItemLabel2" class="fItemLabel"></div>
+                    <div id="fItemInput2" class="fItemInput"><input type="text" name="email" id="email" /></div>
+                </div>
+                <div id="fItem3" class="fItem">
+                    <div id="fItemLabel3" class="fItemLabel"></div>
+                    <div id="fItemInput3" class="fItemInput"><input type="text" name="phone" id="phone" /></div>
+                </div>
+                <div id="fItem4" class="fItem">
+                    <div id="fItemLabel4" class="fItemLabel"></div>
+                    <div id="fItemInput4" class="fItemInput"><textarea rows="10" cols="150" name="description" id="description"></textarea></div>
+                </div>
+                <div id="fItem5" class="fItem">
+                    <div id="fItemLabel5" class="fItemLabel"></div>
+                    <div id="fItemInput5" class="fItemInput"><button type="button" id="submit" onclick="sendmail();"/></div>
+                </div>
+        </div>
+        <!--<div id="mainContent" class="mainContent"></div>
+        <div class="map" id="map"></div>-->
+        <table class="contactTable">
+            <tr>
+                <td width="49%" height="100px"><div id="mainContent1" class="mainContent"></div></td>                
+                <td width="49%" height="100px"><div id="mainContent2" class="mainContent"></div></td>
+            </tr>
+            <tr>
+                <td width="49%"><div class="map" id="map1"></div></td>
+                <td width="49%"><div class="map" id="map2"></div></td>
+            </tr>            
+        </table>
+    </div>
+</body>
+</html>

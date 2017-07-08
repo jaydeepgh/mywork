@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>AUM Express - Franchisee Enquiry</title>
+	<meta charset="utf-8" />
+    <script src="../js/jquery-1.11.3.min.js"></script>
+
+
+    <link href="../CSS/bootstrap.css" rel="stylesheet" />
+    <link href="../CSS/responsive.css" rel="stylesheet" />
+    <link href="../CSS/aumexp.css" rel="stylesheet" />
+    <script src="../js/ReadJSON.js"></script>
+
+
+</head>
+<body>
+    <div class="top-bar">
+        <a class="logo" href="../WebSite/Index.html">
+            <img src="../images/Logo.jpg">
+        </a>
+    </div><!--end of top panel-->
+    <div id="mainPanel" class="mainPanelFran">
+        <div id="container" class="aumpage-container">
+            <div id="pageCaption" class="amupage-Caption"></div>
+            <p /><div id="mainContent" class="mainContentFran"></div>
+            <h2 id="franForm"></h2><br />
+            <div id="fItem1" class="fItem">
+                <div id="fItemLabel1" class="fItemLabel"></div>
+                <div id="fItemInput1" class="fItemInput"><input type="text" id="name" /></div>
+            </div>
+            <div id="fItem2" class="fItem">
+                <div id="fItemLabel2" class="fItemLabel"></div>
+                <div id="fItemInput2" class="fItemInput"><input type="text" id="cName" /></div>
+            </div>
+            <div id="fItem3" class="fItem">
+                <div id="fItemLabel3" class="fItemLabel"></div>
+                <div id="fItemInput3" class="fItemInput"><textarea rows="4" cols="150" id="cAddress"></textarea></div>
+            </div>
+            <div id="fItem4" class="fItem">
+                <div id="fItemLabel4" class="fItemLabel"></div>
+                <div id="fItemInput4" class="fItemInput"><input type="text" id="cMail" /></div>
+            </div>
+            <div id="fItem5" class="fItem">
+                <div id="fItemLabel5" class="fItemLabel"></div>
+                <div id="fItemInput5" class="fItemInput"><input type="text" id="cPhone" /></div>
+            </div>
+            <div id="fItem6" class="fItem">
+                <div id="fItemLabel6" class="fItemLabel"></div>
+                <div id="fItemInput6" class="fItemInput"><button type="button" id="submit" onclick="sendrequest();"/></div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(function ()
+        {
+            getPageContent('Franchisee');
+        });
+
+
+        var sendrequest = function () {
+            //alert('here');
+            var mailData = JSON.stringify({
+                "name": document.getElementById('name').value
+                , "contact": document.getElementById('cName').value
+                , "address": document.getElementById('cAddress').value
+                , "email": document.getElementById('cMail').value
+                , "phoneno": document.getElementById('cPhone').value
+            });
+
+            $.ajax({
+                method: "POST",
+                url: "http://nodemail-enthetic-giantism.mybluemix.net/api/franchisee",
+                contentType: "application/json",
+                data: mailData
+            })
+            .done(function (data) {
+                alert(data);
+                window.close();
+            });
+
+        }
+
+
+
+    </script>
+</body>
+</html>

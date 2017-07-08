@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import {connect} from 'react-redux';
 
+import CircularProgress from 'material-ui/CircularProgress';
 
 
 class PackagingChart extends Component{
@@ -27,7 +28,7 @@ class PackagingChart extends Component{
                   );
 
             }else{
-                return(<div>Loading .....</div>);
+                return(<div className="chartLoadingDiv"><CircularProgress size={60} thickness={7} /></div>);
             }
 
   }

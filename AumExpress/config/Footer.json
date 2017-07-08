@@ -1,0 +1,89 @@
+﻿{
+  "Links": {
+    "Caption": "Site Links",
+    "href": [
+      {
+        "id": "Home",
+        "text": "Home",
+        "url": "#"
+      },
+      {
+        "id": "Services",
+        "text": "Services",
+        "url": "#"
+      },
+      {
+        "id": "Vision",
+        "text": "Vision",
+        "url": "#"
+      },
+      {
+        "id": "Franchisee",
+        "text": "Franchisee",
+        "url": "#"
+      },
+      {
+        "id": "Clients",
+        "text": "Clients",
+        "url": "#"
+      },
+      {
+        "id": "Management",
+        "text": "Management",
+        "url": "#"
+      },
+      {
+        "id": "Career",
+        "text": "Career",
+        "url": "#"
+      },
+      {
+        "id": "AboutUs",
+        "text": "About Us",
+        "url": "#"
+      },
+      {
+        "id": "ContactUs",
+        "text": "Contact Us",
+        "url": "#"
+      }
+    ]
+  },
+  "Events": {
+    "Caption": "Events",
+    "EventText": "This is the new upcomming event declared by AUM express. The text you have entered in config file is appearing here."
+  },
+  "Branches": {
+    "Caption": "Branches",
+    "text": "<ul><li>Kolkata</li><li>Guwahati</li><li>Bhubaneswar</li><li>Patna</li><li>Jameshedpur</li><li>Agartala</li><li>Tinsukia</li><li>Ranchi</li><li>Shillong</li><li>Imphal</li><li>Asansol</li><li>Durgapur</li><li>Burdwan</li><li>Hooghly</li></ul>"
+
+  },
+  "Services": {
+    "Caption": "Services",
+    "text": "<ul><li>Logistics</li><li>Cargo</li><li>Warehousing</li><li>Export-Import</li></ul>"
+  },
+
+  "SocialMedia": {
+    "Caption": "Social Media",
+    "Media": [
+      {
+        "id": "1",
+        "text": "Facebook",
+        "icon": "../images/icons/facebook.png",
+        "url": "http://www.facebook.com"
+      },
+      {
+        "id": "2",
+        "text": "Twitter",
+        "icon": "../images/icons/twitter.png",
+        "url": "http://www.twitter.com"
+      },
+      {
+        "id": "2",
+        "text": "Instagram",
+        "icon": "../images/icons/instagram.png",
+        "url": "http://www.instagram.com"
+      }
+    ]
+  }
+}

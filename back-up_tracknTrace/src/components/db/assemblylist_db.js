@@ -11,8 +11,6 @@ import {
 } from 'redux-form-material-ui';
 import {Link} from 'react-router';
 import {AssemblyStatus} from '../../master_data';
-import AssemblyDetails from './assembly_details';
-import AssemblyTimeline from './assembly_timeline';
 import AssemblyHistory from '../assembly_history';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
